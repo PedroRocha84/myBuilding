@@ -1,6 +1,11 @@
 #Project related
 src/main/resources/application.properties
 
+#Spring Boot
+HELP.md
+mvnw
+mvnw.cmd
+
 # Maven target directory
 /target/
 
