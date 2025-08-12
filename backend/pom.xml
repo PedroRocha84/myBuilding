@@ -13,6 +13,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>My Building</name>
 	<description>This is a application to manage house</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>6.0.18</spring.version>
+		<hibernate.version>6.2.6.Final</hibernate.version>
+	</properties>
+
 	<url/>
 	<licenses>
 		<license/>
@@ -26,9 +34,7 @@
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -40,10 +46,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>3.4.1</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

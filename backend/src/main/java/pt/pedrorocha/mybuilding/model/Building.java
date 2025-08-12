@@ -1,6 +1,11 @@
 package pt.pedrorocha.mybuilding.model;
 
-public class Building {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="buildings")
+public class Building extends AbstractModel  {
 
     public String name;
     public String alias;
