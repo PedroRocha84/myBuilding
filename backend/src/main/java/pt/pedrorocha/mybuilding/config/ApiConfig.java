@@ -11,4 +11,11 @@ public class ApiConfig {
     public String getBaseBuildingPath() {
         return baseBuildingPath;
     }
+
+    @Value("${api.base-clients-path}")
+    private String baseClientsPath;
+
+    public String getBaseClientsPath() {
+        return baseClientsPath;
+    }
 }

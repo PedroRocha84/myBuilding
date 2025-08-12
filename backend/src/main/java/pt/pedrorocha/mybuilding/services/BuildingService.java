@@ -13,16 +13,13 @@ import java.util.Optional;
 public class BuildingService {
 
     private final BuildingRepository buildingRepository;
-    private Building building;
+
 
     // Constructor injection
     public BuildingService(BuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;
     }
 
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
 
     // Get building by id
     public Optional<Building> getBuilding(Long id) {
