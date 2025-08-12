@@ -42,7 +42,6 @@ public class BuildingController {
         return "Building updated successfully!";
     }
 
-
     @RequestMapping(method = RequestMethod.DELETE, path = {"/delete"})
     public String deleteBuilding(@RequestParam long id) {
         return buildingService.removeBuilding(id);
