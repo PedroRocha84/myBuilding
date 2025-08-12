@@ -1,3 +1,6 @@
+#Project related
+src/main/resources/application.properties
+
 # Maven target directory
 /target/
 
