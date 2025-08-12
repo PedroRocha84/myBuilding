@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("${api.base-building-path}")
 public class BuildingController {
 
     BuildingService buildingService;
@@ -21,12 +22,12 @@ public class BuildingController {
         return "Hello, Spring Boot!";
     }
 
-    @RequestMapping(method=RequestMethod.GET, path = {"/api/building/list"})
+    @RequestMapping(method=RequestMethod.GET, path = {"/list"})
     public List<Building> listBuildings() {
         return buildingService.loadBuildings();
     }
 
-    @RequestMapping(method= RequestMethod.POST, path={"/api/building/add"})
+    @RequestMapping(method= RequestMethod.POST, path={"/add"})
     public String addBuilding(@RequestBody Building building) {
         buildingService.addBuilding(building);
         return "Building inserted successfully!";
