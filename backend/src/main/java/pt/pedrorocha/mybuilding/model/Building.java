@@ -56,4 +56,36 @@ public class Building extends AbstractModel  {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public int getVatNumber() {
+        return vatNumber;
+    }
+
+    public void setVatNumber(int vatNumber) {
+        this.vatNumber = vatNumber;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 }

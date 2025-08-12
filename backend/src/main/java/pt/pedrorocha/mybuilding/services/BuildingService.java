@@ -13,10 +13,15 @@ import java.util.Optional;
 public class BuildingService {
 
     private final BuildingRepository buildingRepository;
+    private Building building;
 
     // Constructor injection
     public BuildingService(BuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 
     // Get building by id
@@ -25,14 +30,42 @@ public class BuildingService {
     }
 
     // Get All Buildings
-
     public List<Building> loadBuildings(){
         return new ArrayList<>(buildingRepository.findAll());
     }
 
-    // Add or update building
+    // Add
     @Transactional
-    public Building addBuilding(Building building) {
-        return buildingRepository.save(building);
+    public void addBuilding(Building building) {
+        buildingRepository.save(building);
+    }
+
+    // Update
+    @Transactional
+    public void updateBuilding(long id, Building building) {
+        buildingRepository.findById(id)
+                .map(exist -> {
+                    exist.setName(building.getName());
+                    exist.setAlias(building.getAlias());
+                    exist.setDescription(building.getDescription());
+                    exist.setDistrict(building.getDistrict());
+                    exist.setVatNumber(building.getVatNumber());
+                    exist.setCity(building.getCity());
+                    exist.setCountry(building.getCountry());
+                    exist.setPostCode(building.getPostCode());
+                    exist.setStreet(building.getStreet());
+
+                    return buildingRepository.save(exist);
+                })
+                .orElseThrow(() -> new RuntimeException("Building not found!"));
+    }
+
+    @Transactional
+    public String removeBuilding(long idBuilding) {
+        if(getBuilding(idBuilding).isPresent()){
+            buildingRepository.deleteById(idBuilding);
+            return "Building " + idBuilding + " removed";
+        }
+        return "Building " + idBuilding + " not found";
     }
 }

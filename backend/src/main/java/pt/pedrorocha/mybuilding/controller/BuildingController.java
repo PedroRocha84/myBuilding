@@ -5,7 +5,6 @@ import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.services.BuildingService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.base-building-path}")
@@ -33,4 +32,19 @@ public class BuildingController {
         return "Building inserted successfully!";
     }
 
+    @RequestMapping(method= RequestMethod.PUT, path={"/update/{id}"})
+    public String updateBuilding(@PathVariable long id, @RequestBody Building building) {
+        try {
+            buildingService.updateBuilding(id, building);
+        } catch (Exception e) {
+            return "Building update failed!";
+        }
+        return "Building updated successfully!";
+    }
+
+
+    @RequestMapping(method = RequestMethod.DELETE, path = {"/delete"})
+    public String deleteBuilding(@RequestParam long id) {
+        return buildingService.removeBuilding(id);
+    }
 }
