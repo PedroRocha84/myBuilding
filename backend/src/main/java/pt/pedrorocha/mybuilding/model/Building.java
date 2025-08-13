@@ -1,7 +1,6 @@
 package pt.pedrorocha.mybuilding.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="buildings")
@@ -16,6 +15,13 @@ public class Building extends AbstractModel  {
     public String city;
     public String country;
     public String district;
+
+    @ManyToOne(optional = false) // Null if B2C
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @OneToOne(mappedBy = "building", cascade = CascadeType.ALL)
+    private ClientGroup clientGroup;
 
     public String getName() {
         return name;

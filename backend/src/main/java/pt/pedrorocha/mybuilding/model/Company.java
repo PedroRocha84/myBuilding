@@ -1,11 +1,14 @@
 package pt.pedrorocha.mybuilding.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.List;
+
 @Entity
-@Table(name="clients")
-public class Client extends AbstractModel {
+@Table(name="companies")
+public class Company extends AbstractModel {
     private String alias;
     private int vatNumber;
     private String personInCharge;
@@ -15,6 +18,17 @@ public class Client extends AbstractModel {
     private String postalCode;
     private String city;
     private String district;
+
+    @OneToMany(mappedBy = "company")
+    private List<Building> buildings;
+
+    public List<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void setBuildings(List<Building> buildings) {
+        this.buildings = buildings;
+    }
 
     public String getAlias() {
         return alias;

@@ -2,8 +2,8 @@ package pt.pedrorocha.mybuilding.controller;
 
 
 import org.springframework.web.bind.annotation.*;
-import pt.pedrorocha.mybuilding.model.Client;
-import pt.pedrorocha.mybuilding.services.ClientService;
+import pt.pedrorocha.mybuilding.model.Company;
+import pt.pedrorocha.mybuilding.services.CompanyService;
 
 import java.util.List;
 
@@ -11,25 +11,25 @@ import java.util.List;
 @RequestMapping("${api.base-clients-path}")
 public class ClientController {
 
-    ClientService clientService;
+    CompanyService companyService;
 
-    public ClientController(ClientService clientsService){this.clientService = clientsService;}
+    public ClientController(CompanyService clientsService){this.companyService = clientsService;}
 
     @RequestMapping(method = RequestMethod.GET, path =  {"/", ""})
-    public List<Client> getClients(){
-        return clientService.list();
+    public List<Company> list(){
+        return companyService.list();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add"})
-    public String addClient(@RequestBody Client client){
-        clientService.add(client);
+    public String addClient(@RequestBody Company company){
+        companyService.add(company);
         return "Client submitted successfully!";
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = {"/update/{id}"})
-    public String updateClient(@RequestBody Client client, @PathVariable Long id){
+    public String updateClient(@RequestBody Company company, @PathVariable Long id){
         try{
-            clientService.update(id, client);
+            companyService.update(id, company);
         } catch (Exception e) {
             return "Client update failed!";
         }
@@ -38,8 +38,8 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})
     public String deleteClient(@PathVariable Long id){
-        if(clientService.getClientByID(id)){
-            clientService.delete(id);
+        if(companyService.getClientByID(id)){
+            companyService.delete(id);
             return "Client deleted successfully!";
         }
         return "Client delete failed!";
