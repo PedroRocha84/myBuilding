@@ -14,12 +14,10 @@ public class BuildingService {
 
     private final BuildingRepository buildingRepository;
 
-
     // Constructor injection
     public BuildingService(BuildingRepository buildingRepository) {
         this.buildingRepository = buildingRepository;
     }
-
 
     // Get building by id
     public Optional<Building> getBuilding(Long id) {

@@ -5,7 +5,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="clients")
-public class Clients extends AbstractModel {
+public class Client extends AbstractModel {
     private String alias;
     private int vatNumber;
     private String personInCharge;

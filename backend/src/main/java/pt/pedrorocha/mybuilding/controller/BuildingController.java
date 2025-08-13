@@ -12,13 +12,8 @@ public class BuildingController {
 
     BuildingService buildingService;
 
-    public  BuildingController(BuildingService buildingService) {
+    public BuildingController(BuildingService buildingService) {
         this.buildingService = buildingService;
-    }
-
-    @GetMapping("/api/test")
-    public String sayHello() {
-        return "Hello, Spring Boot!";
     }
 
     @RequestMapping(method=RequestMethod.GET, path = {"/list"})
