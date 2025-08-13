@@ -15,13 +15,45 @@ public class ClientService {
 
     public ClientService(ClientRepository clientsRepository){this.clientRepository = clientsRepository;}
 
-    public List<Client> loadClients(){
+    public boolean getClientByID(long id){
+        return clientRepository.findById(id).isPresent();
+    }
+
+    public List<Client> list(){
         return new ArrayList<>(clientRepository.findAll());
     }
 
     @Transactional
-    public Client addClient(Client client){
+    public Client add(Client client){
         clientRepository.save(client);
         return client;
+    }
+
+    @Transactional
+    public void update(Long id, Client client){
+        clientRepository.findById(id)
+                .map(exist -> {
+                    exist.setAlias(client.getAlias());
+                    exist.setCity(client.getCity());
+                    exist.setDistrict(client.getDistrict());
+                    exist.setEmail(client.getEmail());
+                    exist.setPersonInCharge(client.getPersonInCharge());
+                    exist.setPhoneNumber(client.getPhoneNumber());
+                    exist.setPostalCode(client.getPostalCode());
+                    exist.setStreet(client.getStreet());
+                    exist.setVatNumber(client.getVatNumber());
+
+                    return clientRepository.save(exist);
+                })
+                .orElseThrow(() -> new RuntimeException("Client not found!"));
+    }
+
+    @Transactional
+    public String delete(Long id){
+        if(clientRepository.findById(id).isPresent()){
+            clientRepository.deleteById(id);
+            return "Client deleted!";
+        }
+        return "Client not found!";
     }
 }

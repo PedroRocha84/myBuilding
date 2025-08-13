@@ -17,20 +17,20 @@ public class BuildingController {
     }
 
     @RequestMapping(method=RequestMethod.GET, path = {"/list"})
-    public List<Building> listBuildings() {
-        return buildingService.loadBuildings();
+    public List<Building> list() {
+        return buildingService.list();
     }
 
     @RequestMapping(method= RequestMethod.POST, path={"/add"})
     public String addBuilding(@RequestBody Building building) {
-        buildingService.addBuilding(building);
+        buildingService.add(building);
         return "Building inserted successfully!";
     }
 
     @RequestMapping(method= RequestMethod.PUT, path={"/update/{id}"})
     public String updateBuilding(@PathVariable long id, @RequestBody Building building) {
         try {
-            buildingService.updateBuilding(id, building);
+            buildingService.update(id, building);
         } catch (Exception e) {
             return "Building update failed!";
         }
@@ -39,6 +39,6 @@ public class BuildingController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = {"/delete"})
     public String deleteBuilding(@RequestParam long id) {
-        return buildingService.removeBuilding(id);
+        return buildingService.delete(id);
     }
 }

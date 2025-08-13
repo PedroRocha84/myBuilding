@@ -24,20 +24,17 @@ public class BuildingService {
         return buildingRepository.findById(id);
     }
 
-    // Get All Buildings
-    public List<Building> loadBuildings(){
+    public List<Building> list(){
         return new ArrayList<>(buildingRepository.findAll());
     }
 
-    // Add
     @Transactional
-    public void addBuilding(Building building) {
+    public void add(Building building) {
         buildingRepository.save(building);
     }
 
-    // Update
     @Transactional
-    public void updateBuilding(long id, Building building) {
+    public void update(long id, Building building) {
         buildingRepository.findById(id)
                 .map(exist -> {
                     exist.setName(building.getName());
@@ -56,7 +53,7 @@ public class BuildingService {
     }
 
     @Transactional
-    public String removeBuilding(long idBuilding) {
+    public String delete(long idBuilding) {
         if(getBuilding(idBuilding).isPresent()){
             buildingRepository.deleteById(idBuilding);
             return "Building " + idBuilding + " removed";

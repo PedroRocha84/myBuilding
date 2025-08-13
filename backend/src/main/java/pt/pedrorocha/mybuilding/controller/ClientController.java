@@ -1,10 +1,7 @@
 package pt.pedrorocha.mybuilding.controller;
 
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pt.pedrorocha.mybuilding.model.Client;
 import pt.pedrorocha.mybuilding.services.ClientService;
 
@@ -20,12 +17,31 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.GET, path =  {"/", ""})
     public List<Client> getClients(){
-        return clientService.loadClients();
+        return clientService.list();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add"})
     public String addClient(@RequestBody Client client){
-        clientService.addClient(client);
+        clientService.add(client);
         return "Client submitted successfully!";
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = {"/update/{id}"})
+    public String updateClient(@RequestBody Client client, @PathVariable Long id){
+        try{
+            clientService.update(id, client);
+        } catch (Exception e) {
+            return "Client update failed!";
+        }
+        return "Client updated successfully!";
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})
+    public String deleteClient(@PathVariable Long id){
+        if(clientService.getClientByID(id)){
+            clientService.delete(id);
+            return "Client deleted successfully!";
+        }
+        return "Client delete failed!";
     }
 }
