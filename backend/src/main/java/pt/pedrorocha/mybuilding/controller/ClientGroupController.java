@@ -1,5 +1,6 @@
 package pt.pedrorocha.mybuilding.controller;
 
+import org.apache.coyote.Request;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,5 +21,11 @@ public class ClientGroupController {
     @RequestMapping(method = RequestMethod.GET, path = {"/", ""})
     public List<ClientGroup> list() {
         return clientGroupService.list();
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = {"/add"})
+    public String add(ClientGroup clientGroup) {
+        clientGroupService.addClientGroup(clientGroup);
+        return
     }
 }
