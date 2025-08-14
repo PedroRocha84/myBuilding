@@ -6,7 +6,6 @@ import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientGroupService {
