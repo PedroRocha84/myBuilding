@@ -28,6 +28,4 @@ public class ClientGroupService {
         clientGroupRepository.save(clientGroup);
         return "Client group added successfully!";
     }
-
-
 }
