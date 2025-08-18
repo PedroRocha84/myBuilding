@@ -1,5 +1,8 @@
 package pt.pedrorocha.mybuilding.controller;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.services.BuildingService;
@@ -17,28 +20,44 @@ public class BuildingController {
     }
 
     @RequestMapping(method=RequestMethod.GET, path = {"/list"})
-    public List<Building> list() {
-        return buildingService.list();
+    public ResponseEntity<List<Building>> list() {
+        try {
+            return new ResponseEntity<>(buildingService.list(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(method= RequestMethod.POST, path={"/add"})
-    public String addBuilding(@RequestBody Building building) {
-        buildingService.add(building);
-        return "Building inserted successfully!";
+    public ResponseEntity<String> addBuilding(@RequestBody Building building) {
+        try{
+           buildingService.add(building);
+           return ResponseEntity.ok("Building added successfully");
+        }  catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error adding building: " + e.getMessage());
+        }
     }
 
     @RequestMapping(method= RequestMethod.PUT, path={"/update/{id}"})
-    public String updateBuilding(@PathVariable long id, @RequestBody Building building) {
+    public ResponseEntity<String> updateBuilding(@PathVariable long id, @RequestBody Building building) {
         try {
             buildingService.update(id, building);
+            return ResponseEntity.ok("Building updated successfully");
         } catch (Exception e) {
-            return "Building update failed!";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error updating building: " + e.getMessage());
         }
-        return "Building updated successfully!";
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = {"/delete"})
-    public String deleteBuilding(@RequestParam long id) {
-        return buildingService.delete(id);
+    public ResponseEntity<String> deleteBuilding(@RequestParam long id) {
+        try {
+            buildingService.delete(id);
+            return ResponseEntity.ok("Building deleted successfully");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting building: " + e.getMessage());
+        }
     }
 }
