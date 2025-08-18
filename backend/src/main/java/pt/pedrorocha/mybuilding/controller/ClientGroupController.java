@@ -20,7 +20,7 @@ public class ClientGroupController {
     public ClientGroupController(ClientGroupService clientGroupService) {this.clientGroupService = clientGroupService;}
 
 
-    @RequestMapping(method = RequestMethod.GET, path = {"/", ""})
+    @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
     public List<ClientGroup> list() {
         return clientGroupService.list();
     }

@@ -19,7 +19,7 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"/", ""})
+    @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
     public ResponseEntity<List<Company>> list() {
         try {
             return new ResponseEntity<>(companyService.list(), HttpStatus.OK);
@@ -28,7 +28,7 @@ public class CompanyController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = {"/add"})
+    @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
     public ResponseEntity<String> addClient(@RequestBody Company company) {
         try {
             companyService.add(company);

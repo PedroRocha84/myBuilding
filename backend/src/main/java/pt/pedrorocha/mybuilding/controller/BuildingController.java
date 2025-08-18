@@ -18,7 +18,7 @@ public class BuildingController {
         this.buildingService = buildingService;
     }
 
-    @RequestMapping(method=RequestMethod.GET, path = {"/list"})
+    @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
     public ResponseEntity<List<Building>> list() {
         try {
             return new ResponseEntity<>(buildingService.list(), HttpStatus.OK);
@@ -27,7 +27,7 @@ public class BuildingController {
         }
     }
 
-    @RequestMapping(method= RequestMethod.POST, path={"/add"})
+    @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
     public ResponseEntity<String> addBuilding(@RequestBody Building building) {
         try{
            buildingService.add(building);

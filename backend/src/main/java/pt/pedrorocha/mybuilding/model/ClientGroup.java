@@ -13,7 +13,6 @@ public class ClientGroup extends AbstractModel{
 
     public String getName() {return name;}
 
-
     @OneToOne
     @JoinColumn(name = "building_id")
     private Building building;
