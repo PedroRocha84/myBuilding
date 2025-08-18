@@ -42,6 +42,7 @@ public class CompanyController {
     public ResponseEntity<String> updateCompany(@RequestBody Company company, @PathVariable Long id) {
         try {
             companyExists = companyService.getCompanyByID(id);
+
             if (!companyExists) {
                 return new ResponseEntity<>("Company "  +  company.getAlias() + " not found", HttpStatus.NOT_FOUND);
             }
@@ -59,11 +60,11 @@ public class CompanyController {
             companyExists = companyService.getCompanyByID(id);
 
             if (!companyExists) {
-                return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Company not found", HttpStatus.NOT_FOUND);
             }
 
             companyService.delete(id);
-            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Company deleted.", HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
