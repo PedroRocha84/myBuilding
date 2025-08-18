@@ -14,6 +14,9 @@ public class ApiConfig {
     @Value("${api.base-group-path}")
     private String baseGroupPath;
 
+    @Value("api.base-resident-path")
+    private String baseResidentPath;
+
     public String getBaseBuildingPath() {
         return baseBuildingPath;
     }
@@ -23,4 +26,6 @@ public class ApiConfig {
     }
 
     public String getBaseGroupPath() {return baseGroupPath;}
+
+    public String getBaseResidentPath() {return baseResidentPath;}
 }
