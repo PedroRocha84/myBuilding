@@ -7,15 +7,12 @@ import java.util.List;
 @Entity
 public class ClientGroup extends AbstractModel{
 
-    private String groupName;
+    private String name;
 
-    private void setGroupName(String groupName) {this.groupName = groupName;}
+    public void setName(String name) {this.name = name;}
 
-    public void setBuilding(Building building) {this.building = building;}
+    public String getName() {return name;}
 
-    public String getGroupName() {return groupName;}
-
-    public Building getBuilding() {return building;}
 
     @OneToOne
     @JoinColumn(name = "building_id")

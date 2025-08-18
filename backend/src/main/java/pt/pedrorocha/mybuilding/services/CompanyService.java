@@ -15,7 +15,7 @@ public class CompanyService {
 
     public CompanyService(CompanyRepository clientsRepository){this.clientRepository = clientsRepository;}
 
-    public boolean getClientByID(long id){
+    public boolean getCompanyByID(long id){
         return clientRepository.findById(id).isPresent();
     }
 

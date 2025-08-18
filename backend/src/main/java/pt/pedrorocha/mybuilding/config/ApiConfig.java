@@ -8,10 +8,10 @@ public class ApiConfig {
     @Value("${api.base-building-path}")
     private String baseBuildingPath;
 
-    @Value("${api.base-clients-path}")
-    private String baseClientsPath;
+    @Value("${api.base-company-path}")
+    private String baseCompanyPath;
 
-    @Value("${api.base-clients-group-path}")
+    @Value("${api.base-group-path}")
     private String baseGroupPath;
 
     public String getBaseBuildingPath() {
@@ -19,7 +19,7 @@ public class ApiConfig {
     }
 
     public String getBaseClientsPath() {
-        return baseClientsPath;
+        return baseCompanyPath;
     }
 
     public String getBaseGroupPath() {return baseGroupPath;}
