@@ -1,5 +1,6 @@
 package pt.pedrorocha.mybuilding.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.repository.ResidentRepository;
@@ -19,6 +20,7 @@ public ResidentService(ResidentRepository residentRepository) {this.residentRepo
         return new ArrayList<>(residentRepository.findAll());
     }
 
+    @Transactional
     public Resident add(Resident resident){
         residentRepository.save(resident);
         return resident;

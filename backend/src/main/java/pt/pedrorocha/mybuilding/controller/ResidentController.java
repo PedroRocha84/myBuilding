@@ -39,15 +39,15 @@ public class ResidentController {
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
     public ResponseEntity<String> addResident(@RequestBody ResidentDto dto){
-        if(clientGroupService.findById(dto.getClientGroupId()) == null){
-            return new ResponseEntity<>("Client Group not found!", HttpStatus.NOT_FOUND);
-        };
-
         try {
             Resident resident = new Resident();
             resident.setFirstName(dto.getFirstName());
             resident.setLastName(dto.getLastName());
-            resident.setClientGroup(clientGroupService.findById(dto.getClientGroupId()));
+            if(dto.getClientGroupId() != null){
+                resident.setClientGroup(clientGroupService.findById(dto.getClientGroupId()));
+            }else{
+                resident.setClientGroup(null);
+            }
             residentService.add(resident);
 
             return new ResponseEntity<>("Resident " + dto.getFirstName() + " added successfully", HttpStatus.OK);
