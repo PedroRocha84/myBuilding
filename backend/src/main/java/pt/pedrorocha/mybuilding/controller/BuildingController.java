@@ -31,9 +31,9 @@ public class BuildingController {
     public ResponseEntity<String> addBuilding(@RequestBody Building building) {
         try{
            buildingService.add(building);
-            return new  ResponseEntity<>("Building added", HttpStatus.OK);
+           return new  ResponseEntity<>("Building added", HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<>("Some error occur, please try again.", HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>("Some error occur, please try again.", HttpStatus.BAD_REQUEST);
         }
     }
 

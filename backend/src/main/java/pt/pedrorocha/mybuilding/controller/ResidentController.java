@@ -1,5 +1,6 @@
 package pt.pedrorocha.mybuilding.controller;
 
+import ch.qos.logback.core.net.server.Client;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +11,6 @@ import pt.pedrorocha.mybuilding.dto.ResidentDto;
 import pt.pedrorocha.mybuilding.model.ClientGroup;
 import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
-import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 import pt.pedrorocha.mybuilding.services.ClientGroupService;
 import pt.pedrorocha.mybuilding.services.ResidentService;
 
@@ -21,11 +21,11 @@ import java.util.List;
 public class ResidentController {
 
     ResidentService residentService;
-    ClientGroupRepository clientGroupRepository;
+    ClientGroupService clientGroupService;
 
-    public ResidentController(ResidentService residentService,  ClientGroupRepository clientGroupRepository) {
+    public ResidentController(ResidentService residentService, ClientGroupRepository clientGroupRepository, ClientGroupService clientGroupService) {
         this.residentService = residentService;
-        this.clientGroupRepository = clientGroupRepository;
+        this.clientGroupService = clientGroupService;
     }
 
     @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
@@ -33,26 +33,26 @@ public class ResidentController {
         try {
             return new ResponseEntity<>(residentService.list(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
     public ResponseEntity<String> addResident(@RequestBody ResidentDto dto){
-        try {
-            ClientGroup group = clientGroupRepository.findById(dto.getClientGroupId())
-                    .orElseThrow(() -> new RuntimeException("ClientGroup not found"));
+        if(clientGroupService.findById(dto.getClientGroupId()) == null){
+            return new ResponseEntity<>("Client Group not found!", HttpStatus.NOT_FOUND);
+        };
 
+        try {
             Resident resident = new Resident();
             resident.setFirstName(dto.getFirstName());
             resident.setLastName(dto.getLastName());
-            resident.setClientGroup(group);
-
+            resident.setClientGroup(clientGroupService.findById(dto.getClientGroupId()));
             residentService.add(resident);
 
-            return new ResponseEntity<>("Resident added successfully", HttpStatus.OK);
+            return new ResponseEntity<>("Resident " + dto.getFirstName() + " added successfully", HttpStatus.OK);
+
         }catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

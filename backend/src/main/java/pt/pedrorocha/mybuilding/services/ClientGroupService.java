@@ -46,4 +46,9 @@ public class ClientGroupService {
             clientGroupRepository.deleteById(idClientGroup);
         }
     }
+
+    public ClientGroup findById(long idClientGroup) {
+        return clientGroupRepository.findById(idClientGroup)
+                .orElseThrow(() -> new RuntimeException("Client Group not found!"));
+    }
 }
