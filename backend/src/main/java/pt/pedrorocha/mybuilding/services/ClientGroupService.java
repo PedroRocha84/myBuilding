@@ -6,7 +6,7 @@ import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class ClientGroupService {
@@ -19,22 +19,31 @@ public class ClientGroupService {
         return new ArrayList<>(clientGroupRepository.findAll());
     }
 
-    public Optional<ClientGroup> getClientGroupById(long id) {return clientGroupRepository.findById(id);}
-
     @Transactional
-    public void addClientGroup(ClientGroup clientGroup) {
-        if(!clientGroupRepository.existsByName(clientGroup.getName())) {
-            clientGroupRepository.save(clientGroup);
-        }
+    public void add(ClientGroup clientGroup) {
+       String name = clientGroup.getName();
+
+       if (clientGroupRepository.existsByName(name)) {
+           throw new IllegalArgumentException("Name already exists");
+       }
+        clientGroupRepository.save(clientGroup);
     }
 
     @Transactional
-    public void updateClientGroup(ClientGroup clientGroup) {
-        if(clientGroupRepository.existsByName(clientGroup.getName())) {
-            ClientGroup existing = new ClientGroup();
-            existing.setName(clientGroup.getName());
+    public void update(long id, ClientGroup clientGroup) {
+        clientGroupRepository.findById(id)
+                .map(exist -> {
+                    exist.setName(clientGroup.getName());
 
-            clientGroupRepository.save(existing);
+                    return clientGroupRepository.save(exist);
+                })
+                .orElseThrow(() -> new RuntimeException("Client Group not found!"));
+    }
+
+    @Transactional
+    public void delete(long idClientGroup) {
+        if(clientGroupRepository.existsById(idClientGroup)) {
+            clientGroupRepository.deleteById(idClientGroup);
         }
     }
 }

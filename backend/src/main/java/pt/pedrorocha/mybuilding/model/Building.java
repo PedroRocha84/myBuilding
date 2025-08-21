@@ -16,8 +16,8 @@ public class Building extends AbstractModel  {
     public String country;
     public String district;
 
-    @ManyToOne(optional = false) // Null if B2C
-    @JoinColumn(name = "company_id")
+    @ManyToOne(optional = true) // allow null
+    @JoinColumn(name = "company_id", nullable = true)
     private Company company;
 
     @OneToOne(mappedBy = "building", cascade = CascadeType.ALL)

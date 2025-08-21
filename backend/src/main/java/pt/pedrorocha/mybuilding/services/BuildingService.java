@@ -19,18 +19,19 @@ public class BuildingService {
         this.buildingRepository = buildingRepository;
     }
 
-    // Get building by id
-    public Optional<Building> getBuilding(Long id) {
-        return buildingRepository.findById(id);
-    }
-
     public List<Building> list(){
         return new ArrayList<>(buildingRepository.findAll());
     }
 
     @Transactional
     public void add(Building building) {
+        String name = building.getName();
+
+        if(buildingRepository.existsByName(name)){
+            throw new IllegalArgumentException("Name already exists");
+        }
         buildingRepository.save(building);
+
     }
 
     @Transactional
@@ -53,11 +54,11 @@ public class BuildingService {
     }
 
     @Transactional
-    public String delete(long idBuilding) {
-        if(getBuilding(idBuilding).isPresent()){
+    public void delete(long idBuilding) {
+        if(buildingRepository.existsById(idBuilding)) {
             buildingRepository.deleteById(idBuilding);
-            return "Building " + idBuilding + " removed";
         }
-        return "Building " + idBuilding + " not found";
+
+
     }
 }

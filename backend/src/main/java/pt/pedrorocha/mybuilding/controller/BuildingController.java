@@ -23,7 +23,7 @@ public class BuildingController {
         try {
             return new ResponseEntity<>(buildingService.list(), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -31,10 +31,9 @@ public class BuildingController {
     public ResponseEntity<String> addBuilding(@RequestBody Building building) {
         try{
            buildingService.add(building);
-           return ResponseEntity.ok("Building added successfully");
-        }  catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error adding building: " + e.getMessage());
+            return new  ResponseEntity<>("Building added", HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Some error occur, please try again.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -42,21 +41,20 @@ public class BuildingController {
     public ResponseEntity<String> updateBuilding(@PathVariable long id, @RequestBody Building building) {
         try {
             buildingService.update(id, building);
-            return ResponseEntity.ok("Building updated successfully");
+            return new  ResponseEntity<>("Building " + building.getName() + " updated", HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error updating building: " + e.getMessage());
         }
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = {"/delete"})
-    public ResponseEntity<String> deleteBuilding(@RequestParam long id) {
+    @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})
+    public ResponseEntity<String> deleteBuilding(@PathVariable long id) {
         try {
             buildingService.delete(id);
-            return ResponseEntity.ok("Building deleted successfully");
+            return new  ResponseEntity<>("Building deleted", HttpStatus.OK);
         }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error deleting building: " + e.getMessage());
+            return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -52,6 +52,7 @@ public class ResidentController {
 
             return new ResponseEntity<>("Resident added successfully", HttpStatus.OK);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
