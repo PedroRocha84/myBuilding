@@ -6,4 +6,5 @@ import pt.pedrorocha.mybuilding.model.ClientGroup;
 public interface ClientGroupRepository extends JpaRepository<ClientGroup, Long> {
 
     boolean existsByName(String name);
+
 }
