@@ -5,6 +5,9 @@ public class ResidentDto {
     private String lastName;
     private Long clientGroupId;
 
+    private String fraction;
+
+
     public String getFirstName() {
         return firstName;
     }
@@ -27,5 +30,13 @@ public class ResidentDto {
 
     public void setClientGroupId(Long clientGroupId) {
         this.clientGroupId = clientGroupId;
+    }
+
+    public String getFraction() {
+        return fraction;
+    }
+
+    public void setFraction(String fraction) {
+        this.fraction = fraction;
     }
 }

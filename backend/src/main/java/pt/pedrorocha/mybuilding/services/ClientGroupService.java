@@ -42,9 +42,9 @@ public class ClientGroupService {
 
     @Transactional
     public void delete(long idClientGroup) {
-        if(clientGroupRepository.existsById(idClientGroup)) {
-            clientGroupRepository.deleteById(idClientGroup);
-        }
+        ClientGroup clientGroup =  clientGroupRepository.findById(idClientGroup)
+                .orElseThrow(() -> new RuntimeException("Client Group not found!"));
+        clientGroupRepository.delete(clientGroup);
     }
 
     public ClientGroup findById(long idClientGroup) {

@@ -11,27 +11,33 @@ import java.util.List;
 @Service
 public class CompanyService {
 
-    private final CompanyRepository clientRepository;
+    private final CompanyRepository companyRepository;
 
-    public CompanyService(CompanyRepository clientsRepository){this.clientRepository = clientsRepository;}
+    public CompanyService(CompanyRepository clientsRepository){this.companyRepository = clientsRepository;}
 
     public boolean getCompanyByID(long id){
-        return clientRepository.findById(id).isPresent();
+        return companyRepository.findById(id).isPresent();
     }
 
     public List<Company> list(){
-        return new ArrayList<>(clientRepository.findAll());
+        return new ArrayList<>(companyRepository.findAll());
     }
 
     @Transactional
-    public Company add(Company company){
-        clientRepository.save(company);
-        return company;
+    public void add(Company company){
+        String name = company.getAlias();
+        Integer vatNumber = company.getVatNumber();
+
+        if(companyRepository.existsByAlias(name) ||  companyRepository.existsByVat(vatNumber)){
+            throw new IllegalArgumentException("Company already exists");
+        }
+
+        companyRepository.save(company);
     }
 
     @Transactional
     public void update(Long id, Company company){
-        clientRepository.findById(id)
+        companyRepository.findById(id)
                 .map(exist -> {
                     exist.setAlias(company.getAlias());
                     exist.setCity(company.getCity());
@@ -42,18 +48,15 @@ public class CompanyService {
                     exist.setPostalCode(company.getPostalCode());
                     exist.setStreet(company.getStreet());
                     exist.setVatNumber(company.getVatNumber());
-
-                    return clientRepository.save(exist);
+                    return companyRepository.save(exist);
                 })
                 .orElseThrow(() -> new RuntimeException("Client not found!"));
     }
 
     @Transactional
-    public String delete(Long id){
-        if(clientRepository.findById(id).isPresent()){
-            clientRepository.deleteById(id);
-            return "Client deleted!";
-        }
-        return "Client not found!";
+    public void delete(Long id){
+        Company company  = companyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Company not found!"));
+        companyRepository.delete(company);
     }
 }

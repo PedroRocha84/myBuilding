@@ -1,5 +1,6 @@
 package pt.pedrorocha.mybuilding.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pt.pedrorocha.mybuilding.model.Building;
@@ -55,10 +56,8 @@ public class BuildingService {
 
     @Transactional
     public void delete(long idBuilding) {
-        if(buildingRepository.existsById(idBuilding)) {
-            buildingRepository.deleteById(idBuilding);
-        }
-
-
+        Building building = buildingRepository.findById(idBuilding)
+                .orElseThrow(() -> new EntityNotFoundException("Building not found!"));
+        buildingRepository.delete(building);
     }
 }

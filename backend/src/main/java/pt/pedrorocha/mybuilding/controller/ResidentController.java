@@ -1,12 +1,10 @@
 package pt.pedrorocha.mybuilding.controller;
 
 import ch.qos.logback.core.net.server.Client;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
 import pt.pedrorocha.mybuilding.model.ClientGroup;
 import pt.pedrorocha.mybuilding.model.Resident;
@@ -22,6 +20,7 @@ public class ResidentController {
 
     ResidentService residentService;
     ClientGroupService clientGroupService;
+    boolean residentExist;
 
     public ResidentController(ResidentService residentService, ClientGroupRepository clientGroupRepository, ClientGroupService clientGroupService) {
         this.residentService = residentService;
@@ -37,23 +36,14 @@ public class ResidentController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
-    public ResponseEntity<String> addResident(@RequestBody ResidentDto dto){
-        try {
-            Resident resident = new Resident();
-            resident.setFirstName(dto.getFirstName());
-            resident.setLastName(dto.getLastName());
-            if(dto.getClientGroupId() != null){
-                resident.setClientGroup(clientGroupService.findById(dto.getClientGroupId()));
-            }else{
-                resident.setClientGroup(null);
-            }
-            residentService.add(resident);
+    public ResponseEntity<ResidentDto> add(@RequestBody ResidentDto dto) {
+        ResidentDto createdResident = residentService.add(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdResident);
+    }
 
-            return new ResponseEntity<>("Resident " + dto.getFirstName() + " added successfully", HttpStatus.OK);
-
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @RequestMapping(method = RequestMethod.PUT, path = {"/update/{id}"})
+    public ResponseEntity<ResidentDto> updateResident(@PathVariable Long id, @RequestBody ResidentDto dto){
+            ResidentDto updatedResident = residentService.update(id, dto);
+            return ResponseEntity.ok(updatedResident);
     }
 }

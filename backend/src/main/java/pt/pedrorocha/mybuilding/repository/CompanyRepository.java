@@ -6,4 +6,7 @@ import pt.pedrorocha.mybuilding.model.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
+    boolean existsByAlias(String alias);
+
+    boolean existsByVat(Integer vatNumber);
 }
