@@ -2,6 +2,9 @@ package pt.pedrorocha.mybuilding.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="buildings")
 public class Building extends AbstractModel  {
@@ -22,6 +25,8 @@ public class Building extends AbstractModel  {
 
     @OneToOne(mappedBy = "building", cascade = CascadeType.ALL)
     private ClientGroup clientGroup;
+
+    @OneToMany(mappedBy = "building") private List<Resident> residents = new ArrayList<>();
 
     public String getName() {
         return name;

@@ -1,9 +1,6 @@
 package pt.pedrorocha.mybuilding.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="residents")
@@ -13,9 +10,14 @@ public class Resident extends AbstractModel{
     private String lastName;
     private String fraction; // Optional, for residents
 
+
     @ManyToOne
     @JoinColumn(name = "client_group_id", nullable = true)
     private ClientGroup clientGroup;
+
+    @ManyToOne
+    @JoinColumn(name = "building_id", nullable = false)
+    private Building building;
 
     public String getFirstName() {
         return firstName;
@@ -47,5 +49,13 @@ public class Resident extends AbstractModel{
 
     public void setClientGroup(ClientGroup clientGroup) {
         this.clientGroup = clientGroup;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

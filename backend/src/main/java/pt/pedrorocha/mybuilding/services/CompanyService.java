@@ -28,7 +28,7 @@ public class CompanyService {
         String name = company.getAlias();
         Integer vatNumber = company.getVatNumber();
 
-        if(companyRepository.existsByAlias(name) ||  companyRepository.existsByVat(vatNumber)){
+        if(companyRepository.existsByAlias(name) ||  companyRepository.existsByvatNumber(vatNumber)){
             throw new IllegalArgumentException("Company already exists");
         }
 

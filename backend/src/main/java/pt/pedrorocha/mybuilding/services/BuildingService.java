@@ -60,4 +60,10 @@ public class BuildingService {
                 .orElseThrow(() -> new EntityNotFoundException("Building not found!"));
         buildingRepository.delete(building);
     }
+
+    @Transactional(readOnly = true)
+    public Building findById(Long id) {
+        return buildingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Building not found with id: " + id));
+    }
 }

@@ -3,6 +3,7 @@ package pt.pedrorocha.mybuilding.services;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
+import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.model.ClientGroup;
 import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.repository.ResidentRepository;
@@ -14,12 +15,10 @@ import java.util.List;
 public class ResidentService {
 
 private ResidentRepository residentRepository;
-private ResidentService residentService;
 private ClientGroupService clientGroupService;
 
-public ResidentService(ResidentRepository residentRepository,  ResidentService residentService, ClientGroupService clientGroupService) {
+public ResidentService(ResidentRepository residentRepository, ClientGroupService clientGroupService) {
     this.residentRepository = residentRepository;
-    this.residentService = residentService;
     this.clientGroupService = clientGroupService;
 }
 
@@ -28,10 +27,12 @@ public ResidentService(ResidentRepository residentRepository,  ResidentService r
     }
 
     @Transactional
-    public ResidentDto add(ResidentDto dto) {
+    public ResidentDto add(ResidentDto dto, Building building) {
         Resident resident = new Resident();
         resident.setFirstName(dto.getFirstName());
         resident.setLastName(dto.getLastName());
+        resident.setFraction(dto.getFraction());
+        resident.setBuilding(building);
 
         if (dto.getClientGroupId() != null) {
             ClientGroup clientGroup = clientGroupService.findById(dto.getClientGroupId());
@@ -64,23 +65,18 @@ public ResidentService(ResidentRepository residentRepository,  ResidentService r
 
         Resident savedResident = residentRepository.save(existingResident);
         return mapToDto(savedResident);
-
-    }
-
-    @Transactional
-    public void delete(long idResident){
-
     }
 
     private ResidentDto mapToDto(Resident resident) {
         ResidentDto dto = new ResidentDto();
         dto.setFirstName(resident.getFirstName());
         dto.setLastName(resident.getLastName());
+        dto.setFraction(resident.getFraction());
+        dto.setBuildingId((long) resident.getBuilding().getId());
 
         if (resident.getClientGroup() != null) {
             dto.setClientGroupId((long) resident.getClientGroup().getId());
         }
-
         return dto;
     }
 }
