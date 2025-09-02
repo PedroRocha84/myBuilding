@@ -1,5 +1,6 @@
 package pt.pedrorocha.mybuilding.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,19 +22,14 @@ import java.util.List;
 @RequestMapping("${api.base-resident-path}")
 public class ResidentController {
 
-    private final ResidentMapper residentMapper;
-    private final ResidentRepository residentRepository;
+    @Autowired
+    ResidentMapper residentMapper;
+    @Autowired
+    ResidentRepository residentRepository;
+    @Autowired
     ResidentService residentService;
+    @Autowired
     BuildingService buildingService;
-    ClientGroupService clientGroupService;
-
-    public ResidentController(ResidentService residentService, ClientGroupRepository clientGroupRepository, ClientGroupService clientGroupService, BuildingService buildingService, ResidentMapper residentMapper, ResidentRepository residentRepository) {
-        this.residentService = residentService;
-        this.clientGroupService = clientGroupService;
-        this.buildingService = buildingService;
-        this.residentMapper = residentMapper;
-        this.residentRepository = residentRepository;
-    }
 
     // List all residents
     @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
