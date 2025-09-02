@@ -1,5 +1,6 @@
 package pt.pedrorocha.mybuilding.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ private ResidentMapper residentMapper;
 
         // Check if resident exists
         Resident existingResident = residentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Resident not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Resident not found with id: " + id));
 
         // Update all fields (full update)
         existingResident.setFirstName(dto.getFirstName());

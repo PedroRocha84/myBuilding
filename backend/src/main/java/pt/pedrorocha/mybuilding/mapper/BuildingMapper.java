@@ -6,8 +6,9 @@ import pt.pedrorocha.mybuilding.model.Building;
 
 @Service
 public class BuildingMapper {
-    public BuildingDto ToDto(Building building) {
+    public BuildingDto toDto(Building building) {
         if(building == null) {return null;}
+
         BuildingDto dto = new BuildingDto();
         dto.setId(building.getId());
         dto.setName(building.getName());
@@ -21,5 +22,22 @@ public class BuildingMapper {
         dto.setVatNumber(building.getVatNumber());
 
         return dto;
+    }
+
+    public Building toEntity(BuildingDto dto) {
+        if(dto == null) {return null;}
+        Building building = new Building();
+        building.setId(dto.getId());
+        building.setName(dto.getName());
+        building.setDescription(dto.getDescription());
+        building.setAlias(dto.getAlias());
+        building.setCity(dto.getCity());
+        building.setCountry(dto.getCountry());
+        building.setDistrict(dto.getDistrict());
+        building.setStreet(dto.getStreet());
+        building.setPostCode(dto.getPostCode());
+        building.setVatNumber(dto.getVatNumber());
+
+        return building;
     }
 }

@@ -27,8 +27,11 @@ public class BuildingService {
     }
 
     @Transactional
-    public BuildingDto add(BuildingDto buildingDto) git ad{
+    public BuildingDto add(BuildingDto buildingDto) {
+        if(buildingDto == null) {return null;}
+
         Building building = new Building();
+        building.setId(buildingDto.getId());
         building.setName(buildingDto.getName());
         building.setDescription(buildingDto.getDescription());
         building.setAlias(buildingDto.getAlias());
@@ -41,27 +44,30 @@ public class BuildingService {
 
         Building savedBuilding = buildingRepository.save(building);
 
-        return buildingMapper.ToDto(savedBuilding);
+        return buildingMapper.toDto(savedBuilding);
 
     }
 
     @Transactional
-    public void update(long id, Building building) {
-        buildingRepository.findById(id)
-                .map(exist -> {
-                    exist.setName(building.getName());
-                    exist.setAlias(building.getAlias());
-                    exist.setDescription(building.getDescription());
-                    exist.setDistrict(building.getDistrict());
-                    exist.setVatNumber(building.getVatNumber());
-                    exist.setCity(building.getCity());
-                    exist.setCountry(building.getCountry());
-                    exist.setPostCode(building.getPostCode());
-                    exist.setStreet(building.getStreet());
+    public BuildingDto update(long id, BuildingDto buildingDto) {
 
-                    return buildingRepository.save(exist);
-                })
-                .orElseThrow(() -> new RuntimeException("Building not found!"));
+        Building existingBuilding = buildingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Building not found with id " + id));
+
+        existingBuilding.setId(buildingDto.getId());
+        existingBuilding.setName(buildingDto.getName());
+        existingBuilding.setDescription(buildingDto.getDescription());
+        existingBuilding.setAlias(buildingDto.getAlias());
+        existingBuilding.setCity(buildingDto.getCity());
+        existingBuilding.setCountry(buildingDto.getCountry());
+        existingBuilding.setDistrict(buildingDto.getDistrict());
+        existingBuilding.setPostCode(buildingDto.getPostCode());
+        existingBuilding.setStreet(buildingDto.getStreet());
+        existingBuilding.setVatNumber(buildingDto.getVatNumber());
+
+        Building updatedBuilding = buildingRepository.save(existingBuilding);
+
+        return buildingMapper.toDto(updatedBuilding);
     }
 
     @Transactional

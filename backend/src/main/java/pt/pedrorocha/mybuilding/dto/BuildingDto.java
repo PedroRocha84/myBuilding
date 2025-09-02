@@ -3,6 +3,7 @@ package pt.pedrorocha.mybuilding.dto;
 public class BuildingDto {
 
     public Integer id;
+
     public String name;
     public String alias;
     public int vatNumber;

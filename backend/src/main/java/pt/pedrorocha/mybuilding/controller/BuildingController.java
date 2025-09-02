@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pt.pedrorocha.mybuilding.dto.BuildingDto;
 import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
 import pt.pedrorocha.mybuilding.model.Building;
@@ -32,7 +33,7 @@ public class BuildingController {
             List<Building> buildingList = buildingService.list();
             List<BuildingDto> dtoList = new ArrayList<>();
             for(Building building : buildingList){
-                dtoList.add(buildingMapper.ToDto(building));
+                dtoList.add(buildingMapper.toDto(building));
             }
 
             return  new ResponseEntity<>(dtoList, HttpStatus.OK);
@@ -44,7 +45,7 @@ public class BuildingController {
     @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
     public ResponseEntity<BuildingDto> addBuilding(@RequestBody BuildingDto buildingDto) {
         try{
-            if(buildingRepository.existsById((long) buildingDto.getId())){
+            if(buildingRepository.existsByName(buildingDto.getName())){
                 return  ResponseEntity.status(HttpStatus.CONFLICT)
                         .body(null);
             }
@@ -58,10 +59,10 @@ public class BuildingController {
     }
 
     @RequestMapping(method= RequestMethod.PUT, path={"/update/{id}"})
-    public ResponseEntity<String> updateBuilding(@PathVariable long id, @RequestBody Building building) {
+    public ResponseEntity<String> updateBuilding(@PathVariable long id, @RequestBody BuildingDto buildingDto) {
         try {
-            buildingService.update(id, building);
-            return new  ResponseEntity<>("Building " + building.getName() + " updated", HttpStatus.OK);
+            buildingService.update(id, buildingDto);
+            return new  ResponseEntity<>("Building " + buildingDto.getName() + " updated", HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error updating building: " + e.getMessage());
@@ -69,12 +70,15 @@ public class BuildingController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})
-    public ResponseEntity<String> deleteBuilding(@PathVariable long id) {
-        try {
-            buildingService.delete(id);
-            return new  ResponseEntity<>("Building deleted", HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<BuildingDto> deleteBuilding(@PathVariable long id) {
+           Building building = buildingRepository.findById(id)
+                   .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+           BuildingDto dto = buildingMapper.toDto(building);
+
+           buildingRepository.delete(building);
+
+           return ResponseEntity.ok(dto);
+
     }
 }
