@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pt.pedrorocha.mybuilding.dto.BuildingDto;
 import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
 import pt.pedrorocha.mybuilding.model.Building;
+import pt.pedrorocha.mybuilding.repository.BuildingRepository;
 import pt.pedrorocha.mybuilding.services.BuildingService;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class BuildingController {
 
     @Autowired
     BuildingMapper buildingMapper;
+
+    @Autowired
+    BuildingRepository buildingRepository;
 
     @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
     public ResponseEntity<List<BuildingDto>> list() {
@@ -38,12 +42,18 @@ public class BuildingController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
-    public ResponseEntity<String> addBuilding(@RequestBody Building building) {
+    public ResponseEntity<BuildingDto> addBuilding(@RequestBody BuildingDto buildingDto) {
         try{
-           buildingService.add(building);
-           return new  ResponseEntity<>("Building added", HttpStatus.OK);
+            if(buildingRepository.existsById((long) buildingDto.getId())){
+                return  ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(null);
+            }
+
+            BuildingDto savedBuilding = buildingService.add(buildingDto);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedBuilding);
         } catch (Exception e){
-           return new ResponseEntity<>("Some error occur, please try again.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

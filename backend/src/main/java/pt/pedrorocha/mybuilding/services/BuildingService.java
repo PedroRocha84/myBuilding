@@ -1,37 +1,47 @@
 package pt.pedrorocha.mybuilding.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pt.pedrorocha.mybuilding.dto.BuildingDto;
+import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.repository.BuildingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class BuildingService {
 
-    private final BuildingRepository buildingRepository;
+    @Autowired
+    BuildingRepository buildingRepository;
 
-    // Constructor injection
-    public BuildingService(BuildingRepository buildingRepository) {
-        this.buildingRepository = buildingRepository;
-    }
+   @Autowired
+    BuildingMapper buildingMapper;
 
     public List<Building> list(){
         return new ArrayList<>(buildingRepository.findAll());
     }
 
     @Transactional
-    public void add(Building building) {
-        String name = building.getName();
+    public BuildingDto add(BuildingDto buildingDto) git ad{
+        Building building = new Building();
+        building.setName(buildingDto.getName());
+        building.setDescription(buildingDto.getDescription());
+        building.setAlias(buildingDto.getAlias());
+        building.setCity(buildingDto.getCity());
+        building.setCountry(buildingDto.getCountry());
+        building.setDistrict(buildingDto.getDistrict());
+        building.setPostCode(buildingDto.getPostCode());
+        building.setStreet(buildingDto.getStreet());
+        building.setVatNumber(buildingDto.getVatNumber());
 
-        if(buildingRepository.existsByName(name)){
-            throw new IllegalArgumentException("Name already exists");
-        }
-        buildingRepository.save(building);
+        Building savedBuilding = buildingRepository.save(building);
+
+        return buildingMapper.ToDto(savedBuilding);
 
     }
 
