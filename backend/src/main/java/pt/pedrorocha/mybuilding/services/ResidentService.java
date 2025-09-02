@@ -47,6 +47,7 @@ private ResidentMapper residentMapper;
         return residentMapper.ToDto(savedResident);
     }
 
+
     @Transactional
     public ResidentDto update(Long id, ResidentDto dto) {
 
@@ -70,5 +71,10 @@ private ResidentMapper residentMapper;
         Resident savedResident = residentRepository.save(existingResident);
 
         return residentMapper.ToDto(savedResident);
+    }
+
+    public Resident find(Long id) {
+        return residentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Resident not found with id: " + id));
     }
 }

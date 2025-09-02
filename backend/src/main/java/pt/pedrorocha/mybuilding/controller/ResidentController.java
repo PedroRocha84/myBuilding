@@ -3,12 +3,13 @@ package pt.pedrorocha.mybuilding.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
 import pt.pedrorocha.mybuilding.mapper.ResidentMapper;
 import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.model.ClientGroup;
 import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
+import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 import pt.pedrorocha.mybuilding.services.BuildingService;
 import pt.pedrorocha.mybuilding.services.ClientGroupService;
 import pt.pedrorocha.mybuilding.services.ResidentService;
@@ -21,15 +22,17 @@ import java.util.List;
 public class ResidentController {
 
     private final ResidentMapper residentMapper;
+    private final ResidentRepository residentRepository;
     ResidentService residentService;
     BuildingService buildingService;
     ClientGroupService clientGroupService;
 
-    public ResidentController(ResidentService residentService, ClientGroupRepository clientGroupRepository, ClientGroupService clientGroupService, BuildingService buildingService, ResidentMapper residentMapper) {
+    public ResidentController(ResidentService residentService, ClientGroupRepository clientGroupRepository, ClientGroupService clientGroupService, BuildingService buildingService, ResidentMapper residentMapper, ResidentRepository residentRepository) {
         this.residentService = residentService;
         this.clientGroupService = clientGroupService;
         this.buildingService = buildingService;
         this.residentMapper = residentMapper;
+        this.residentRepository = residentRepository;
     }
 
     // List all residents
@@ -78,5 +81,22 @@ public class ResidentController {
     public ResponseEntity<ResidentDto> updateResident(@PathVariable Long id, @RequestBody ResidentDto dto){
             ResidentDto updatedResident = residentService.update(id, dto);
             return ResponseEntity.ok(updatedResident);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})
+    public ResponseEntity<ResidentDto> deleteResident(@PathVariable Long id){
+
+        // Check if the resident exists
+        Resident resident = residentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        // Map the entity to DTO before deletion
+        ResidentDto dto = residentMapper.ToDto(resident);
+
+        // Delete the resident
+        residentRepository.deleteById(id);
+
+        // Return the DTO with 200 OK
+        return ResponseEntity.ok(dto);
     }
 }
