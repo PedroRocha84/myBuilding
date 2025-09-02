@@ -1,8 +1,10 @@
 package pt.pedrorocha.mybuilding.services;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
+import pt.pedrorocha.mybuilding.mapper.ResidentMapper;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.model.ClientGroup;
 import pt.pedrorocha.mybuilding.model.Resident;
@@ -14,13 +16,15 @@ import java.util.List;
 @Service
 public class ResidentService {
 
+@Autowired
 private ResidentRepository residentRepository;
+
+@Autowired
 private ClientGroupService clientGroupService;
 
-public ResidentService(ResidentRepository residentRepository, ClientGroupService clientGroupService) {
-    this.residentRepository = residentRepository;
-    this.clientGroupService = clientGroupService;
-}
+@Autowired
+private ResidentMapper residentMapper;
+
 
     public List<Resident> list(){
         return new ArrayList<>(residentRepository.findAll());
@@ -40,7 +44,7 @@ public ResidentService(ResidentRepository residentRepository, ClientGroupService
         }
 
         Resident savedResident = residentRepository.save(resident);
-        return mapToDto(savedResident); // Convert back to DTO
+        return residentMapper.ToDto(savedResident);
     }
 
     @Transactional
@@ -64,19 +68,7 @@ public ResidentService(ResidentRepository residentRepository, ClientGroupService
         }
 
         Resident savedResident = residentRepository.save(existingResident);
-        return mapToDto(savedResident);
-    }
 
-    private ResidentDto mapToDto(Resident resident) {
-        ResidentDto dto = new ResidentDto();
-        dto.setFirstName(resident.getFirstName());
-        dto.setLastName(resident.getLastName());
-        dto.setFraction(resident.getFraction());
-        dto.setBuildingId((long) resident.getBuilding().getId());
-
-        if (resident.getClientGroup() != null) {
-            dto.setClientGroupId((long) resident.getClientGroup().getId());
-        }
-        return dto;
+        return residentMapper.ToDto(savedResident);
     }
 }
