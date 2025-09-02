@@ -10,6 +10,7 @@ public class ResidentMapper {
         if(resident == null) {return null;}
 
         ResidentDto dto = new ResidentDto();
+        dto.setId(resident.getId());
         dto.setFirstName(resident.getFirstName());
         dto.setLastName(resident.getLastName());
         dto.setFraction(resident.getFraction());

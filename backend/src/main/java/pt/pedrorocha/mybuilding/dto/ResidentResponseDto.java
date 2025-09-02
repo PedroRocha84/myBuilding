@@ -1,7 +1,6 @@
 package pt.pedrorocha.mybuilding.dto;
 
-public class ResidentDto {
-    private Integer id;
+public class ResidentResponseDto {
     private String firstName;
     private String lastName;
     private Long clientGroupId;
@@ -9,7 +8,6 @@ public class ResidentDto {
     private String fraction;
 
     // Getters
-    public Integer getId() {return id;}
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public Long getClientGroupId() { return clientGroupId; }
@@ -17,8 +15,7 @@ public class ResidentDto {
     public String getFraction() { return fraction; }
 
     // Setters
-
-    public void setId(Integer id) {this.id = id;}
+    
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
     public void setClientGroupId(Long clientGroupId) { this.clientGroupId = clientGroupId; }
