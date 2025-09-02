@@ -1,30 +1,39 @@
 package pt.pedrorocha.mybuilding.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pt.pedrorocha.mybuilding.dto.BuildingDto;
+import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.services.BuildingService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("${api.base-building-path}")
 public class BuildingController {
 
+    @Autowired
     BuildingService buildingService;
 
-
-    public BuildingController(BuildingService buildingService) {
-        this.buildingService = buildingService;
-    }
+    @Autowired
+    BuildingMapper buildingMapper;
 
     @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
-    public ResponseEntity<List<Building>> list() {
+    public ResponseEntity<List<BuildingDto>> list() {
         try {
-            return new ResponseEntity<>(buildingService.list(), HttpStatus.OK);
+            List<Building> buildingList = buildingService.list();
+            List<BuildingDto> dtoList = new ArrayList<>();
+            for(Building building : buildingList){
+                dtoList.add(buildingMapper.ToDto(building));
+            }
+
+            return  new ResponseEntity<>(dtoList, HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
