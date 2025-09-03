@@ -14,6 +14,9 @@ import pt.pedrorocha.mybuilding.mapper.TicketMapper;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.model.Ticket;
+import pt.pedrorocha.mybuilding.repository.BuildingRepository;
+import pt.pedrorocha.mybuilding.repository.TicketRepository;
+import pt.pedrorocha.mybuilding.services.BuildingService;
 import pt.pedrorocha.mybuilding.services.TicketService;
 
 import java.util.ArrayList;
@@ -29,11 +32,16 @@ public class TicketController {
     @Autowired
     TicketMapper ticketMapper;
 
+    @Autowired
+    TicketRepository ticketRepository;
+
+
     @RequestMapping(method = RequestMethod.GET, path = {"/list"})
     public ResponseEntity<List<TicketDto>> list() {
         // list all tickets
         List<Ticket> ticketList = ticketService.list();
         List<TicketDto> dtoList  = new ArrayList<>();
+
         for(Ticket tickets : ticketList){
             dtoList.add(ticketMapper.toDto(tickets));
         }
@@ -42,8 +50,15 @@ public class TicketController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = {"/list/building/{id}"})
-    public void listByBuilding(@PathVariable long id, @RequestBody Building building) {
+    public ResponseEntity<List<TicketResponseDto>> listByBuilding(@PathVariable long id) {
         //list all tickets from a specific building
+        List<TicketResponseDto> ticketList = ticketRepository.findByBuildingId(id)
+                .stream()
+                .filter(ticket -> ticket.getBuilding().getId() == id)
+                .map(dto -> ticketMapper.toResponseDto(dto))
+                .toList();
+
+        return new ResponseEntity<>(ticketList, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = {"/list/resident/{id}"})
@@ -53,10 +68,11 @@ public class TicketController {
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add"})
     public ResponseEntity<TicketResponseDto> add(@RequestBody TicketDto ticketDto) {
+
         TicketResponseDto ticket = ticketService.add(ticketDto);
 
         // add a new ticket
-        return new ResponseEntity<>(ticket, HttpStatus.OK);
+        return new ResponseEntity<>(ticket, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = {"/update/{id}"})
