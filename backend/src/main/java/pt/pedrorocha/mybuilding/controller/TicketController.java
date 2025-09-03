@@ -79,8 +79,10 @@ public class TicketController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = {"/update/{id}"})
-    public void update(@PathVariable long id, @RequestBody Ticket ticket) {
+    public ResponseEntity<> update(@PathVariable long id, @RequestBody TicketDto ticketDto) {
         //update a specific ticket
+        ticketService.update(id, ticketDto);
+
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})

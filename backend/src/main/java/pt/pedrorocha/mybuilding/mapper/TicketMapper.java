@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.TicketDto;
 import pt.pedrorocha.mybuilding.dto.TicketResponseDto;
 import pt.pedrorocha.mybuilding.model.Building;
+import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.model.Ticket;
 
 @Service
@@ -33,5 +34,17 @@ public class TicketMapper {
         dto.setBuildingId(ticket.getBuilding().getId());
 
         return dto;
+    }
+
+    public Ticket toEntity(TicketDto dto, Resident resident, Building building) {
+        if (dto == null) { return null; }
+
+        Ticket ticket = new Ticket();
+        ticket.setTitle(dto.getTitle());
+        ticket.setDescription(dto.getDescription());
+        ticket.setStatus(dto.getStatus());
+        ticket.setResident(resident);
+        ticket.setBuilding(building);
+        return ticket;
     }
 }

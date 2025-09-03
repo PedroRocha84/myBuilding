@@ -74,8 +74,9 @@ private ResidentMapper residentMapper;
         return residentMapper.ToDto(savedResident);
     }
 
-    public Resident find(Long id) {
+    public Resident findById(Long id) {
         return residentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Resident not found with id: " + id));
     }
+
 }
