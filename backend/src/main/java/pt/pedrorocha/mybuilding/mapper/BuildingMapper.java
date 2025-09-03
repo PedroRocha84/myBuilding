@@ -24,20 +24,4 @@ public class BuildingMapper {
         return dto;
     }
 
-    public Building toEntity(BuildingDto dto) {
-        if(dto == null) {return null;}
-        Building building = new Building();
-        building.setId(dto.getId());
-        building.setName(dto.getName());
-        building.setDescription(dto.getDescription());
-        building.setAlias(dto.getAlias());
-        building.setCity(dto.getCity());
-        building.setCountry(dto.getCountry());
-        building.setDistrict(dto.getDistrict());
-        building.setStreet(dto.getStreet());
-        building.setPostCode(dto.getPostCode());
-        building.setVatNumber(dto.getVatNumber());
-
-        return building;
-    }
 }

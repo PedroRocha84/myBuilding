@@ -9,10 +9,8 @@ import pt.pedrorocha.mybuilding.dto.ResidentDto;
 import pt.pedrorocha.mybuilding.mapper.ResidentMapper;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.model.Resident;
-import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
 import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 import pt.pedrorocha.mybuilding.services.BuildingService;
-import pt.pedrorocha.mybuilding.services.ClientGroupService;
 import pt.pedrorocha.mybuilding.services.ResidentService;
 
 import java.util.ArrayList;
