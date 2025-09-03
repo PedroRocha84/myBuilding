@@ -11,12 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.pedrorocha.mybuilding.dto.TicketDto;
 import pt.pedrorocha.mybuilding.dto.TicketResponseDto;
 import pt.pedrorocha.mybuilding.mapper.TicketMapper;
-import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.model.Resident;
 import pt.pedrorocha.mybuilding.model.Ticket;
-import pt.pedrorocha.mybuilding.repository.BuildingRepository;
 import pt.pedrorocha.mybuilding.repository.TicketRepository;
-import pt.pedrorocha.mybuilding.services.BuildingService;
 import pt.pedrorocha.mybuilding.services.TicketService;
 
 import java.util.ArrayList;
@@ -62,8 +58,15 @@ public class TicketController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = {"/list/resident/{id}"})
-    public void listByResident(@PathVariable long id, @RequestBody Resident resident) {
+    public ResponseEntity<List<TicketResponseDto>> listByResident(@PathVariable long id) {
         // list all tickets from a specific resident
+        List<TicketResponseDto> ticketList = ticketRepository.findByResidentId(id)
+                .stream()
+                .filter(ticket -> ticket.getResident().getId() == id)
+                .map(dto -> ticketMapper.toResponseDto(dto))
+                .toList();
+
+        return new ResponseEntity<>(ticketList, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add"})

@@ -9,4 +9,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     boolean getTicketById(Integer id);
 
     List<Ticket> findByBuildingId(Long buildingId);
+    List<Ticket> findByResidentId(Long residentId);
 }

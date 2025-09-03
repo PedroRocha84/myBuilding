@@ -36,7 +36,7 @@ public class TicketService {
         return new ArrayList<>(ticketRepository.findAll());
     }
 
-    public TicketResponseDto add(TicketDto ticketdto){
+    public TicketResponseDto add(TicketDto ticketdto) throws ResponseStatusException {
         if(ticketdto == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket can't be null");
         }
@@ -46,6 +46,10 @@ public class TicketService {
 
         Building building = buildingRepository.findById(ticketdto.getBuildingId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Building not found"));
+
+        if(resident.getBuilding().getId() != building.getId()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resident and Building not found");
+        }
 
         Ticket ticket = new Ticket();
         ticket.setDescription(ticketdto.getDescription());
