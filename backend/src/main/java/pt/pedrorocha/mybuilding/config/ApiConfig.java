@@ -17,6 +17,11 @@ public class ApiConfig {
     @Value("api.base-resident-path")
     private String baseResidentPath;
 
+    @Value("api.ticket-path")
+    private String ticketPath;
+
+    public String getTicketPath() {return ticketPath;}
+
     public String getBaseBuildingPath() {
         return baseBuildingPath;
     }
