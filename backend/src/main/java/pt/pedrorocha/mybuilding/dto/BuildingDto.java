@@ -2,7 +2,7 @@ package pt.pedrorocha.mybuilding.dto;
 
 public class BuildingDto {
 
-    public Integer id;
+    public Long id;
 
     public String name;
     public String alias;
@@ -14,7 +14,7 @@ public class BuildingDto {
     public String country;
     public String district;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -54,7 +54,7 @@ public class BuildingDto {
         return district;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

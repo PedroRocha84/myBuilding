@@ -1,13 +1,21 @@
 package pt.pedrorocha.mybuilding.model;
 
-import org.springframework.stereotype.Service;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-@Service
+@Entity
+@Table(name="tickets")
 public class Ticket extends AbstractModel {
     private String title;
     private String description;
     private String status;
+    @ManyToOne
+    @JoinColumn(name = "resident_id")
     private Resident resident;
+    @ManyToOne
+    @JoinColumn(name = "building_id")
     private Building building;
 
     public String getTitle() {

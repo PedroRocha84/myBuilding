@@ -43,20 +43,16 @@ public class BuildingController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = {"/add", "/add/"})
+    @PostMapping({"/add", "/add/"})
     public ResponseEntity<BuildingDto> addBuilding(@RequestBody BuildingDto buildingDto) {
-        try{
-            if(buildingRepository.existsByName(buildingDto.getName())){
-                return  ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body(null);
-            }
-
-            BuildingDto savedBuilding = buildingService.add(buildingDto);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedBuilding);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (buildingRepository.existsByName(buildingDto.getName())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+
+        BuildingDto savedBuilding = buildingService.add(buildingDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedBuilding);
     }
+
 
     @RequestMapping(method= RequestMethod.PUT, path={"/update/{id}"})
     public ResponseEntity<String> updateBuilding(@PathVariable long id, @RequestBody BuildingDto buildingDto) {

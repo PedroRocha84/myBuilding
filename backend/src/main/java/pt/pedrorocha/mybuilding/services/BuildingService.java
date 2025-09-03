@@ -31,7 +31,6 @@ public class BuildingService {
         if(buildingDto == null) {return null;}
 
         Building building = new Building();
-        building.setId(buildingDto.getId());
         building.setName(buildingDto.getName());
         building.setDescription(buildingDto.getDescription());
         building.setAlias(buildingDto.getAlias());

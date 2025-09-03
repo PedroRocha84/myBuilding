@@ -10,7 +10,7 @@ public class AbstractModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Version
     private Integer version;
@@ -21,11 +21,11 @@ public class AbstractModel {
     @UpdateTimestamp
     private Date updateTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
