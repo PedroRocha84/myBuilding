@@ -1,8 +1,5 @@
 package pt.pedrorocha.mybuilding.dto;
 
-import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.model.Resident;
-
 public class TicketDto {
 
     private String title;
@@ -10,6 +7,8 @@ public class TicketDto {
     private String status;
     private Long residentId;
     private Long buildingId;
+
+    public TicketDto() {}
 
     public String getTitle() {
         return title;

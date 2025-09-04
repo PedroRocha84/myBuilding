@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import pt.pedrorocha.mybuilding.dto.TicketDto;
 import pt.pedrorocha.mybuilding.dto.TicketResponseDto;
 import pt.pedrorocha.mybuilding.mapper.TicketMapper;
@@ -18,7 +15,7 @@ import pt.pedrorocha.mybuilding.services.TicketService;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("${api.ticket-path}")
 public class TicketController {
 
@@ -28,66 +25,60 @@ public class TicketController {
     @Autowired
     TicketMapper ticketMapper;
 
-    @Autowired
-    TicketRepository ticketRepository;
-
-
-    @RequestMapping(method = RequestMethod.GET, path = {"/list"})
-    public ResponseEntity<List<TicketDto>> list() {
+    // Get all tickets
+    @GetMapping
+    public ResponseEntity<List<TicketResponseDto>> getAllTickets() {
         // list all tickets
         List<Ticket> ticketList = ticketService.list();
-        List<TicketDto> dtoList  = new ArrayList<>();
+        List<TicketResponseDto> dtoList  = new ArrayList<>();
 
         for(Ticket tickets : ticketList){
-            dtoList.add(ticketMapper.toDto(tickets));
+            dtoList.add(ticketMapper.toResponseDto(tickets));
         }
-
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"/list/building/{id}"})
-    public ResponseEntity<List<TicketResponseDto>> listByBuilding(@PathVariable long id) {
+    // Get all tickets for a building
+    @GetMapping("/buildings/{buildingId}")
+    public ResponseEntity<List<TicketResponseDto>> getTicketsByBuilding(@PathVariable long buildingId) {
         //list all tickets from a specific building
-        List<TicketResponseDto> ticketList = ticketRepository.findByBuildingId(id)
+        List<TicketResponseDto> ticketList = ticketService.findByBuildingId(buildingId)
                 .stream()
-                .filter(ticket -> ticket.getBuilding().getId() == id)
                 .map(dto -> ticketMapper.toResponseDto(dto))
                 .toList();
-
         return new ResponseEntity<>(ticketList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = {"/list/resident/{id}"})
-    public ResponseEntity<List<TicketResponseDto>> listByResident(@PathVariable long id) {
+    // Get all tickets for a resident
+    @GetMapping("/residents/{residentId}")
+    public ResponseEntity<List<TicketResponseDto>> getTicketsByResident(@PathVariable long residentId) {
         // list all tickets from a specific resident
-        List<TicketResponseDto> ticketList = ticketRepository.findByResidentId(id)
+        List<TicketResponseDto> ticketList = ticketService.findByResidentId(residentId)
                 .stream()
-                .filter(ticket -> ticket.getResident().getId() == id)
                 .map(dto -> ticketMapper.toResponseDto(dto))
                 .toList();
-
         return new ResponseEntity<>(ticketList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = {"/add"})
-    public ResponseEntity<TicketResponseDto> add(@RequestBody TicketDto ticketDto) {
-
-        TicketResponseDto ticket = ticketService.add(ticketDto);
-
+    // Create a new ticket
+    @PostMapping
+    public ResponseEntity<TicketResponseDto> createTicket(@RequestBody TicketDto ticketDto) {
         // add a new ticket
+        TicketResponseDto ticket = ticketService.add(ticketDto);
         return new ResponseEntity<>(ticket, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = {"/update/{id}"})
-    public ResponseEntity<TicketResponseDto> update(@PathVariable long id, @RequestBody TicketDto ticketDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<TicketResponseDto> updateTicket(@PathVariable long id, @RequestBody TicketDto ticketDto) {
         //update a specific ticket
         Ticket updatedTicket = ticketService.update(id, ticketDto);
 
         return new ResponseEntity<>(ticketMapper.toResponseDto(updatedTicket), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = {"/delete/{id}"})
-    public void delete(@PathVariable long id) {
-        //delete a specific ticket by its id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        ticketService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

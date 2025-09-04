@@ -35,9 +35,8 @@ public class TicketService {
     private TicketMapper ticketMapper;
 
     @Autowired
-    private TicketService ticketService;
-    @Autowired
     private ResidentService residentService;
+
     @Autowired
     private BuildingService buildingService;
 
@@ -51,13 +50,13 @@ public class TicketService {
         }
 
         Resident resident = residentRepository.findById(ticketdto.getResidentId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resident not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resident not found"));
 
         Building building = buildingRepository.findById(ticketdto.getBuildingId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Building not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Building not found"));
 
         if(!Objects.equals(resident.getBuilding().getId(), building.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resident and Building not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resident and Building not found");
         }
 
         Ticket ticket = ticketMapper.toEntity(ticketdto, resident, building);
@@ -86,5 +85,19 @@ public class TicketService {
         existingTicket.setResident(resident);
 
         return ticketRepository.save(existingTicket);
+    }
+
+    public void delete(long id){
+        if (residentRepository.findById(id).isPresent()) {
+            residentRepository.deleteById(id);
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resident not found");
+        }
+    }
+    public List<Ticket> findByBuildingId(Long buildingId){
+        return ticketRepository.findByBuildingId(buildingId);
+    }
+    public List<Ticket> findByResidentId(Long residentId){
+        return ticketRepository.findByResidentId(residentId);
     }
 }
