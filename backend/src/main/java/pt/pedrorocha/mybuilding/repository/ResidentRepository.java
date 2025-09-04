@@ -3,9 +3,13 @@ package pt.pedrorocha.mybuilding.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pt.pedrorocha.mybuilding.model.Resident;
 
+import java.util.Collection;
+
 public interface ResidentRepository extends JpaRepository<Resident, Long> {
 
     Long id(Integer id);
 
-    boolean existsByFirstNameAndLastName(String firstName, String lastName);
+    Long buildingId(Integer findByBuildingId);
+
+    Collection<Object> findByBuildingId(Long buildingId);
 }

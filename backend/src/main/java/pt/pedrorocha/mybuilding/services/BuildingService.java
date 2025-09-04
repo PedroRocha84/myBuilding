@@ -1,13 +1,18 @@
 package pt.pedrorocha.mybuilding.services;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pt.pedrorocha.mybuilding.dto.BuildingDto;
+import pt.pedrorocha.mybuilding.dto.BuildingResponseDto;
 import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
 import pt.pedrorocha.mybuilding.model.Building;
 import pt.pedrorocha.mybuilding.repository.BuildingRepository;
+import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,58 +27,66 @@ public class BuildingService {
    @Autowired
     BuildingMapper buildingMapper;
 
+   @Autowired
+    ResidentRepository residentRepository;
+
     public List<Building> list(){
         return new ArrayList<>(buildingRepository.findAll());
     }
 
     @Transactional
-    public BuildingDto add(BuildingDto buildingDto) {
-        if(buildingDto == null) {return null;}
+    public BuildingResponseDto add(BuildingDto buildingDto) {
+        if(buildingDto == null) {
+            return null;
+        }
 
-        Building building = new Building();
-        building.setName(buildingDto.getName());
-        building.setDescription(buildingDto.getDescription());
-        building.setAlias(buildingDto.getAlias());
-        building.setCity(buildingDto.getCity());
-        building.setCountry(buildingDto.getCountry());
-        building.setDistrict(buildingDto.getDistrict());
-        building.setPostCode(buildingDto.getPostCode());
-        building.setStreet(buildingDto.getStreet());
-        building.setVatNumber(buildingDto.getVatNumber());
+        if(buildingRepository.existsByName(buildingDto.getName())) {
+            throw new EntityExistsException("Building already exists");
+        }
+
+        Building building = buildingMapper.toEntity(buildingDto);
 
         Building savedBuilding = buildingRepository.save(building);
 
-        return buildingMapper.toDto(savedBuilding);
+        return buildingMapper.toResponseDto(savedBuilding);
 
     }
 
     @Transactional
-    public BuildingDto update(long id, BuildingDto buildingDto) {
+    public BuildingResponseDto update(Building building) {
 
-        Building existingBuilding = buildingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Building not found with id " + id));
+        if(!buildingRepository.existsById(building.getId())) {
+            return null;
+        }
 
-        existingBuilding.setId(buildingDto.getId());
-        existingBuilding.setName(buildingDto.getName());
-        existingBuilding.setDescription(buildingDto.getDescription());
-        existingBuilding.setAlias(buildingDto.getAlias());
-        existingBuilding.setCity(buildingDto.getCity());
-        existingBuilding.setCountry(buildingDto.getCountry());
-        existingBuilding.setDistrict(buildingDto.getDistrict());
-        existingBuilding.setPostCode(buildingDto.getPostCode());
-        existingBuilding.setStreet(buildingDto.getStreet());
-        existingBuilding.setVatNumber(buildingDto.getVatNumber());
+        Building existingBuilding = buildingRepository.findById(building.getId()).get();
+        existingBuilding.setName(building.getName());
+        existingBuilding.setAlias(building.getAlias());
+        existingBuilding.setVatNumber(building.getVatNumber());
+        existingBuilding.setDescription(building.getDescription());
+        existingBuilding.setStreet(building.getStreet());
+        existingBuilding.setPostCode(building.getPostCode());
+        existingBuilding.setCity(building.getCity());
+        existingBuilding.setCountry(building.getCountry());
+        existingBuilding.setDistrict(building.getDistrict());
 
-        Building updatedBuilding = buildingRepository.save(existingBuilding);
-
-        return buildingMapper.toDto(updatedBuilding);
+        return buildingMapper.toResponseDto(existingBuilding);
     }
 
     @Transactional
-    public void delete(long idBuilding) {
-        Building building = buildingRepository.findById(idBuilding)
+    public void delete(long buildingId) {
+        Building building = buildingRepository.findById(buildingId)
                 .orElseThrow(() -> new EntityNotFoundException("Building not found!"));
-        buildingRepository.delete(building);
+
+        // Is not possible to delete a building if exists a resident leaving there.
+        // Alter DB schema foreign keys
+
+        if (!residentRepository.findByBuildingId(buildingId).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot delete building with residents");
+        }
+
+        buildingRepository.deleteById(buildingId);
+
     }
 
     @Transactional(readOnly = true)

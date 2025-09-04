@@ -3,7 +3,8 @@ package pt.pedrorocha.mybuilding.dto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BuildingDto {
+public class BuildingResponseDto {
+    public Long id;
 
     public String name;
     public String alias;
@@ -85,5 +86,13 @@ public class BuildingDto {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
