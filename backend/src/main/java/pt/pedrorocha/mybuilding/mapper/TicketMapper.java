@@ -3,9 +3,9 @@ package pt.pedrorocha.mybuilding.mapper;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.TicketDto;
 import pt.pedrorocha.mybuilding.dto.TicketResponseDto;
-import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.model.Resident;
-import pt.pedrorocha.mybuilding.model.Ticket;
+import pt.pedrorocha.mybuilding.entity.Building;
+import pt.pedrorocha.mybuilding.entity.Resident;
+import pt.pedrorocha.mybuilding.entity.Ticket;
 
 @Service
 public class TicketMapper {

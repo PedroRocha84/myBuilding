@@ -2,7 +2,7 @@ package pt.pedrorocha.mybuilding.mapper;
 
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
-import pt.pedrorocha.mybuilding.model.Resident;
+import pt.pedrorocha.mybuilding.entity.Resident;
 
 @Service
 public class ResidentMapper {

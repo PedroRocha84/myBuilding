@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
 import pt.pedrorocha.mybuilding.mapper.ResidentMapper;
-import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.model.ClientGroup;
-import pt.pedrorocha.mybuilding.model.Resident;
+import pt.pedrorocha.mybuilding.entity.Building;
+import pt.pedrorocha.mybuilding.entity.ClientGroup;
+import pt.pedrorocha.mybuilding.entity.Resident;
 import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 
 import java.util.ArrayList;

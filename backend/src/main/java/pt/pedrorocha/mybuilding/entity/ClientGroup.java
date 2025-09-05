@@ -1,11 +1,12 @@
-package pt.pedrorocha.mybuilding.model;
+package pt.pedrorocha.mybuilding.entity;
 
 import jakarta.persistence.*;
+import pt.pedrorocha.mybuilding.model.AbstractModel;
 
 import java.util.List;
 
 @Entity
-public class ClientGroup extends AbstractModel{
+public class ClientGroup extends AbstractModel {
 
     private String name;
 

@@ -3,7 +3,7 @@ package pt.pedrorocha.mybuilding.mapper;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.BuildingDto;
 import pt.pedrorocha.mybuilding.dto.BuildingResponseDto;
-import pt.pedrorocha.mybuilding.model.Building;
+import pt.pedrorocha.mybuilding.entity.Building;
 
 @Service
 public class BuildingMapper {

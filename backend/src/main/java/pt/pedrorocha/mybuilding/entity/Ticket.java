@@ -1,9 +1,10 @@
-package pt.pedrorocha.mybuilding.model;
+package pt.pedrorocha.mybuilding.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import pt.pedrorocha.mybuilding.model.AbstractModel;
 
 @Entity
 @Table(name="tickets")

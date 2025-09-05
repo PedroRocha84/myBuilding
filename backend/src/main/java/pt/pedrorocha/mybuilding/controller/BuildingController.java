@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import pt.pedrorocha.mybuilding.dto.BuildingDto;
 import pt.pedrorocha.mybuilding.dto.BuildingResponseDto;
 import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
-import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.repository.BuildingRepository;
+import pt.pedrorocha.mybuilding.entity.Building;
 import pt.pedrorocha.mybuilding.services.BuildingService;
 
 import java.util.ArrayList;

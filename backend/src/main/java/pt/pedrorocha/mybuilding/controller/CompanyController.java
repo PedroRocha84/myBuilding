@@ -3,7 +3,7 @@ package pt.pedrorocha.mybuilding.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pt.pedrorocha.mybuilding.model.Company;
+import pt.pedrorocha.mybuilding.entity.Company;
 import pt.pedrorocha.mybuilding.services.CompanyService;
 
 import java.util.List;

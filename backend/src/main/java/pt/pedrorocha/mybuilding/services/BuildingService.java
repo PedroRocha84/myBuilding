@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import pt.pedrorocha.mybuilding.dto.BuildingDto;
 import pt.pedrorocha.mybuilding.dto.BuildingResponseDto;
 import pt.pedrorocha.mybuilding.mapper.BuildingMapper;
-import pt.pedrorocha.mybuilding.model.Building;
+import pt.pedrorocha.mybuilding.entity.Building;
 import pt.pedrorocha.mybuilding.repository.BuildingRepository;
 import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 

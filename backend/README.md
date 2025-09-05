@@ -7,3 +7,16 @@
  - Every resident belongs to exactly one building, via their client group. 
  - Each building can only have one client group, avoiding conflicts.
 
+### How it is structured?
+
+src/main/java/pt/pedrorocha/mybuilding
+│
+├── config/          # Configuration classes
+├── controller/      # HTTP controllers
+├── dto/             # Data Transfer Objects
+├── entity/          # JPA entities
+├── exceptions/      # Custom exceptions & handlers
+├── mapper/          # Mapper/conversion classes
+├── model/           # Domain models
+├── repository/      # Data access interfaces
+└── services/        # Business logic/services

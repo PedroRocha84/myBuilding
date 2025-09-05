@@ -1,8 +1,9 @@
-package pt.pedrorocha.mybuilding.model;
+package pt.pedrorocha.mybuilding.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import pt.pedrorocha.mybuilding.model.AbstractModel;
 
 import java.util.List;
 

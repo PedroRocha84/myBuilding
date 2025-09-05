@@ -1,7 +1,7 @@
 package pt.pedrorocha.mybuilding.services;
 
 import org.springframework.stereotype.Service;
-import pt.pedrorocha.mybuilding.model.ClientGroup;
+import pt.pedrorocha.mybuilding.entity.ClientGroup;
 import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;

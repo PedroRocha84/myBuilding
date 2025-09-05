@@ -2,15 +2,14 @@ package pt.pedrorocha.mybuilding.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pt.pedrorocha.mybuilding.dto.TicketDto;
 import pt.pedrorocha.mybuilding.dto.TicketResponseDto;
 import pt.pedrorocha.mybuilding.mapper.TicketMapper;
-import pt.pedrorocha.mybuilding.model.Building;
-import pt.pedrorocha.mybuilding.model.Resident;
-import pt.pedrorocha.mybuilding.model.Ticket;
+import pt.pedrorocha.mybuilding.entity.Building;
+import pt.pedrorocha.mybuilding.entity.Resident;
+import pt.pedrorocha.mybuilding.entity.Ticket;
 import pt.pedrorocha.mybuilding.repository.BuildingRepository;
 import pt.pedrorocha.mybuilding.repository.ResidentRepository;
 import pt.pedrorocha.mybuilding.repository.TicketRepository;

@@ -1,13 +1,14 @@
-package pt.pedrorocha.mybuilding.model;
+package pt.pedrorocha.mybuilding.entity;
 
 import jakarta.persistence.*;
+import pt.pedrorocha.mybuilding.model.AbstractModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="buildings")
-public class Building extends AbstractModel  {
+public class Building extends AbstractModel {
 
     public String name;
     public String alias;

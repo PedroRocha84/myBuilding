@@ -1,10 +1,11 @@
-package pt.pedrorocha.mybuilding.model;
+package pt.pedrorocha.mybuilding.entity;
 
 import jakarta.persistence.*;
+import pt.pedrorocha.mybuilding.model.AbstractModel;
 
 @Entity
 @Table(name="residents")
-public class Resident extends AbstractModel{
+public class Resident extends AbstractModel {
 
     private String firstName;
     private String lastName;
