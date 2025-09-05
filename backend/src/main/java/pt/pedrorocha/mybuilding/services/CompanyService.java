@@ -1,5 +1,7 @@
 package pt.pedrorocha.mybuilding.services;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pt.pedrorocha.mybuilding.entity.Company;
@@ -15,10 +17,6 @@ public class CompanyService {
 
     public CompanyService(CompanyRepository clientsRepository){this.companyRepository = clientsRepository;}
 
-    public boolean getCompanyByID(long id){
-        return companyRepository.findById(id).isPresent();
-    }
-
     public List<Company> list(){
         return new ArrayList<>(companyRepository.findAll());
     }
@@ -29,9 +27,8 @@ public class CompanyService {
         Integer vatNumber = company.getVatNumber();
 
         if(companyRepository.existsByAlias(name) ||  companyRepository.existsByvatNumber(vatNumber)){
-            throw new IllegalArgumentException("Company already exists");
+            throw new EntityExistsException("Company with name " + name + " already exists!");
         }
-
         companyRepository.save(company);
     }
 
@@ -54,9 +51,10 @@ public class CompanyService {
     }
 
     @Transactional
-    public void delete(Long id){
-        Company company  = companyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Company not found!"));
-        companyRepository.delete(company);
+    public void delete(Long companyId){
+        if(!companyRepository.existsById(companyId)){
+            throw new EntityNotFoundException("Company with id " + companyId + " does not exist");
+        }
+        companyRepository.deleteById(companyId);
     }
 }
