@@ -8,6 +8,7 @@ import pt.pedrorocha.mybuilding.dto.TicketDto;
 import pt.pedrorocha.mybuilding.dto.TicketResponseDto;
 import pt.pedrorocha.mybuilding.mapper.TicketMapper;
 import pt.pedrorocha.mybuilding.entity.Ticket;
+import pt.pedrorocha.mybuilding.services.ClientGroupService;
 import pt.pedrorocha.mybuilding.services.TicketService;
 
 import java.util.ArrayList;
@@ -17,11 +18,15 @@ import java.util.List;
 @RequestMapping("${api.ticket-path}")
 public class TicketController {
 
-    @Autowired
-    TicketService ticketService;
+    private final TicketService ticketService;
 
-    @Autowired
-    TicketMapper ticketMapper;
+    private final TicketMapper ticketMapper;
+
+    public TicketController(TicketService ticketService, TicketMapper ticketMapper) {
+        this.ticketService = ticketService;
+        this.ticketMapper = ticketMapper;
+
+    }
 
     // Get all tickets
     @GetMapping

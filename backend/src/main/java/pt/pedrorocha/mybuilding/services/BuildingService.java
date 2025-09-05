@@ -2,7 +2,6 @@ package pt.pedrorocha.mybuilding.services;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,15 +20,18 @@ import java.util.List;
 @Service
 public class BuildingService {
 
-    @Autowired
-    BuildingRepository buildingRepository;
+    private final BuildingRepository buildingRepository;
 
-   @Autowired
-    BuildingMapper buildingMapper;
+    private final BuildingMapper buildingMapper;
 
-   @Autowired
-    ResidentRepository residentRepository;
+    private final ResidentRepository residentRepository;
 
+    public BuildingService(BuildingRepository buildingRepository,BuildingMapper buildingMapper, ResidentRepository residentRepository) {
+        this.buildingRepository = buildingRepository;
+        this.buildingMapper = buildingMapper;
+        this.residentRepository = residentRepository;
+
+    }
     public List<Building> list(){
         return new ArrayList<>(buildingRepository.findAll());
     }
@@ -53,13 +55,13 @@ public class BuildingService {
     }
 
     @Transactional
-    public BuildingResponseDto update(Building building) {
+    public BuildingResponseDto update(Long buildingId, Building building) {
 
-        if(!buildingRepository.existsById(building.getId())) {
+        if(!buildingRepository.existsById(buildingId)) {
             return null;
         }
 
-        Building existingBuilding = buildingRepository.findById(building.getId()).get();
+        Building existingBuilding = buildingRepository.findById(buildingId).get();
         existingBuilding.setName(building.getName());
         existingBuilding.setAlias(building.getAlias());
         existingBuilding.setVatNumber(building.getVatNumber());

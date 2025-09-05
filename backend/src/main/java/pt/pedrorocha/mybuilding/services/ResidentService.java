@@ -2,7 +2,6 @@ package pt.pedrorocha.mybuilding.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.dto.ResidentDto;
 import pt.pedrorocha.mybuilding.mapper.ResidentMapper;
@@ -17,15 +16,15 @@ import java.util.List;
 @Service
 public class ResidentService {
 
-@Autowired
-private ResidentRepository residentRepository;
+    private final ResidentRepository residentRepository;
+    private final ClientGroupService clientGroupService;
+    private final ResidentMapper residentMapper;
 
-@Autowired
-private ClientGroupService clientGroupService;
-
-@Autowired
-private ResidentMapper residentMapper;
-
+    public ResidentService(ResidentRepository residentRepository,ClientGroupService clientGroupService, ResidentMapper residentMapper) {
+        this.residentRepository = residentRepository;
+        this.clientGroupService = clientGroupService;
+        this.residentMapper = residentMapper;
+    }
 
     public List<Resident> list(){
         return new ArrayList<>(residentRepository.findAll());

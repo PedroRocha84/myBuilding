@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("${api.base-company-path}")
 public class CompanyController {
 
-    CompanyService companyService;
+    private final CompanyService companyService;
     boolean companyExists;
 
     public CompanyController(CompanyService companyService) {

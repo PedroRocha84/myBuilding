@@ -1,6 +1,5 @@
 package pt.pedrorocha.mybuilding.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,23 +20,21 @@ import java.util.Objects;
 @Service
 public class TicketService {
 
-    @Autowired
-    private TicketRepository ticketRepository;
+    private final  TicketRepository ticketRepository;
+    private final  ResidentRepository residentRepository;
+    private final  BuildingRepository buildingRepository;
+    private final  TicketMapper ticketMapper;
+    private final  ResidentService residentService;
+    private final BuildingService buildingService;
 
-    @Autowired
-    private ResidentRepository residentRepository;
-
-    @Autowired
-    private BuildingRepository buildingRepository;
-
-    @Autowired
-    private TicketMapper ticketMapper;
-
-    @Autowired
-    private ResidentService residentService;
-
-    @Autowired
-    private BuildingService buildingService;
+    public TicketService(TicketRepository ticketRepository,ResidentRepository residentRepository, BuildingRepository buildingRepository, TicketMapper ticketMapper, ResidentService residentService, BuildingService buildingService) {
+        this.ticketRepository = ticketRepository;
+        this.residentRepository = residentRepository;
+        this.buildingRepository = buildingRepository;
+        this.ticketMapper = ticketMapper;
+        this.residentService = residentService;
+        this.buildingService = buildingService;
+    }
 
     public List<Ticket> list(){
         return new ArrayList<>(ticketRepository.findAll());

@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("${api.base-group-path}")
 public class ClientGroupController {
 
-    private ClientGroupService clientGroupService;
+    private final ClientGroupService clientGroupService;
 
     public ClientGroupController(ClientGroupService clientGroupService) {this.clientGroupService = clientGroupService;}
 

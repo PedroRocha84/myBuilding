@@ -1,6 +1,5 @@
 package pt.pedrorocha.mybuilding.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,14 @@ import java.util.List;
 @RequestMapping("${api.base-building-path}")
 public class BuildingController {
 
-    @Autowired
-    BuildingService buildingService;
+    private final BuildingService buildingService;
 
-    @Autowired
-    BuildingMapper buildingMapper;
+    private final BuildingMapper buildingMapper;
 
+    public BuildingController(BuildingService buildingService, BuildingMapper buildingMapper){
+        this.buildingService = buildingService;
+        this.buildingMapper = buildingMapper;
+    }
 
     @GetMapping
     public ResponseEntity<List<BuildingResponseDto>> getAllBuildings() {
@@ -46,8 +47,8 @@ public class BuildingController {
     }
 
     @PutMapping("/{buildingId}")
-    public ResponseEntity<String> updateBuilding(@RequestBody Building building) {
-        buildingService.update(building);
+    public ResponseEntity<String> updateBuilding(@PathVariable Long buildingId, @RequestBody Building building) {
+        buildingService.update(buildingId, building);
         return  ResponseEntity.status(HttpStatus.OK).body("Building id " + building.getId().toString() + " updated");
     }
 

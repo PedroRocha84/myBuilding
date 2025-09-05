@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ClientGroupService {
 
-    private ClientGroupRepository clientGroupRepository;
+    private final ClientGroupRepository clientGroupRepository;
 
     public ClientGroupService(ClientGroupRepository clientGroupRepository) {this.clientGroupRepository = clientGroupRepository;}
 

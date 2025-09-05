@@ -20,14 +20,18 @@ import java.util.List;
 @RequestMapping("${api.base-resident-path}")
 public class ResidentController {
 
-    @Autowired
-    ResidentMapper residentMapper;
-    @Autowired
-    ResidentRepository residentRepository;
-    @Autowired
-    ResidentService residentService;
-    @Autowired
-    BuildingService buildingService;
+    private final ResidentMapper residentMapper;
+    private final ResidentRepository residentRepository;
+    private final ResidentService residentService;
+    private final BuildingService buildingService;
+
+    public ResidentController(ResidentMapper residentMapper, ResidentRepository residentRepository,BuildingService buildingService, ResidentService residentService) {
+        this.residentMapper = residentMapper;
+        this.residentRepository = residentRepository;
+        this.buildingService = buildingService;
+        this.residentService = residentService;
+
+    }
 
     // List all residents
     @RequestMapping(method=RequestMethod.GET, path = {"/", "", "/list"})
