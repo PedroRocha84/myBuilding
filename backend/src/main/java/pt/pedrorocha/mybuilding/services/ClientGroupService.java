@@ -1,12 +1,12 @@
 package pt.pedrorocha.mybuilding.services;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import pt.pedrorocha.mybuilding.entity.ClientGroup;
 import pt.pedrorocha.mybuilding.repository.ClientGroupRepository;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 public class ClientGroupService {
@@ -16,39 +16,37 @@ public class ClientGroupService {
     public ClientGroupService(ClientGroupRepository clientGroupRepository) {this.clientGroupRepository = clientGroupRepository;}
 
     public List<ClientGroup> list() {
-        return new ArrayList<>(clientGroupRepository.findAll());
+       return clientGroupRepository.findAll();
     }
 
     @Transactional
-    public void add(ClientGroup clientGroup) {
-       String name = clientGroup.getName();
-
-       if (clientGroupRepository.existsByName(name)) {
-           throw new IllegalArgumentException("Name already exists");
+    public ClientGroup add(ClientGroup clientGroup) {
+       if (clientGroupRepository.existsByName(clientGroup.getName())) {
+           throw new EntityExistsException("Client group with name " + clientGroup.getName() + " already exists");
        }
-        clientGroupRepository.save(clientGroup);
+       return clientGroupRepository.save(clientGroup);
+
     }
 
     @Transactional
-    public void update(long id, ClientGroup clientGroup) {
-        clientGroupRepository.findById(id)
-                .map(exist -> {
-                    exist.setName(clientGroup.getName());
+    public ClientGroup update(long idClientGroup, ClientGroup clientGroup) {
+        ClientGroup toSave = clientGroupRepository.getOne(idClientGroup);
+        toSave.setName(clientGroup.getName());
 
-                    return clientGroupRepository.save(exist);
-                })
-                .orElseThrow(() -> new RuntimeException("Client Group not found!"));
+        return clientGroupRepository.save(toSave);
     }
 
     @Transactional
     public void delete(long idClientGroup) {
-        ClientGroup clientGroup =  clientGroupRepository.findById(idClientGroup)
-                .orElseThrow(() -> new RuntimeException("Client Group not found!"));
-        clientGroupRepository.delete(clientGroup);
+        if(!clientGroupRepository.existsById(idClientGroup)) {
+            throw new EntityNotFoundException("Client group with id " + idClientGroup + "does not exist");
+        }
+        clientGroupRepository.delete(clientGroupRepository.getReferenceById(idClientGroup));
     }
 
     public ClientGroup findById(long idClientGroup) {
         return clientGroupRepository.findById(idClientGroup)
-                .orElseThrow(() -> new RuntimeException("Client Group not found!"));
+                .orElseThrow(() -> new EntityNotFoundException("Client Group with id " + idClientGroup + " not found"));
     }
+
 }
