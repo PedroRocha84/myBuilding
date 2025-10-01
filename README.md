@@ -24,9 +24,10 @@ By tracking and analyzing building-related data, this application aims to provid
 
 📈 Goal
 
-Have fun
-Learn Spring Boot
-Make building management transparent, measurable, and improvable through simple, clear metrics.
+- Have fun
+- Learn Spring Boot
+- Make building management transparent, measurable, and improv
+- able through simple, clear metrics.
 
 ## 📁 Project Structure
 ```├── backend/                   # Java + Spring Boot backend
@@ -44,6 +45,55 @@ Make building management transparent, measurable, and improvable through simple,
 │   │           └── services/      # Business logic / service classes
 │   └── pom.xml                    # Maven project file
 ```
+
+🔗 API Overview
+
+The backend exposes a RESTful API to manage building data, including residents, budgets, and building metrics.
+It allows clients (like the frontend) to create, read, update, and delete information, providing actionable insights for building management.
+
+## 🔗 API Overview
+
+The backend exposes a RESTful API to manage building data, including **building**, **company**,**residents**, **Client Group**, and **tickets**;
+It allows clients to **create, read, update, and delete** information, providing actionable insights for building management.  
+
+---
+## 🐛 BUG LOG
+
+| Object | Method | bug | Description | Status
+|--------|---------|-------------------------|-------------------------|------------|
+| Resident | DELETE | /residents endpoint fails when resident has associated tickets | Attempting to delete a resident via the DELETE /residents/{id} endpoint fails if there are tickets linked to the resident. | 🔴 open |
+---
+
+## 📚 Endpoints
+
+### Building
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET    | `/api/builings` | Retrive a list of all buildings |
+| GET    | `/api/builings/{id}` | Retrieve details of a specific building |
+| POST   | `/api/builings` | Retrive a list of all buildings |
+| put    | `/api/residents/{id}` | Update building information |
+| DELETE | `/api/buildings/{id}` | Remove a building |
+
+### Company
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET    | `/api/companies` | Retrive a list of all companies |
+| GET    | `/api/companies/{id}` | Retrieve details of a specific company |
+| POST   | `/api/companies` | Retrive a list of all companies |
+| put    | `/api/companies/{id}` | Update company information |
+| DELETE | `/api/companies/{id}` | Remove a companies |
+
+### Residents
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET    | `/api/residents` | Retrieve a list of all residents |
+| GET    | `/api/residents/{id}` | Retrieve details of a specific resident |
+| POST   | `/api/residents` | Add a new resident |
+| PUT    | `/api/residents/{id}` | Update resident information |
+| DELETE | `/api/residents/{id}` | Remove a resident |
+
+
 
 ## 🧠 Learning Goals
 
