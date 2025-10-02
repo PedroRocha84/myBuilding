@@ -10,4 +10,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByBuildingId(Long buildingId);
     List<Ticket> findByResidentId(Long residentId);
+
+    boolean existsByResidentId(Long residentId);
 }
