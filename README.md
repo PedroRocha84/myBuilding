@@ -59,9 +59,9 @@ It allows clients to **create, read, update, and delete** information, providing
 ---
 ## 🐛 BUG LOG
 
-| Object | Method | bug | Description | Status
-|--------|---------|-------------------------|-------------------------|------------|
-| Resident | DELETE | /residents endpoint fails when resident has associated tickets | Attempting to delete a resident via the DELETE /residents/{id} endpoint fails if there are tickets linked to the resident. | 🔴 open |
+| Object | Method | bug | Description | # | Status
+|--------|---------|-------------------------|--------|---------------------|------------|
+| Resident | DELETE | /residents endpoint fails when resident has associated tickets | Attempting to delete a resident via the DELETE /residents/{id} endpoint fails if there are tickets linked to the resident. | bugfix/001-resident-delete | 🔴 open |
 ---
 
 ## 📚 Endpoints
