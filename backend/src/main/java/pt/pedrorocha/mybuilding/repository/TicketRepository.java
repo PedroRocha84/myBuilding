@@ -1,6 +1,7 @@
 package pt.pedrorocha.mybuilding.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import pt.pedrorocha.mybuilding.entity.Resident;
 import pt.pedrorocha.mybuilding.entity.Ticket;
 
 import java.util.List;
@@ -10,4 +11,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByBuildingId(Long buildingId);
     List<Ticket> findByResidentId(Long residentId);
+
+    boolean existsByResidentId(Long residentId);
 }

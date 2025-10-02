@@ -80,8 +80,9 @@ public class TicketController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
-        ticketService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        Long ticketId = ticketService.findById(id).getId();
+        ticketService.delete(ticketId);
+        return ResponseEntity.status(HttpStatus.OK).body("Ticket " +  ticketId + " deleted.");
     }
 }
