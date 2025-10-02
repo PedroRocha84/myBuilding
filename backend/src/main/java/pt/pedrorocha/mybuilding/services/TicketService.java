@@ -83,12 +83,18 @@ public class TicketService {
         return ticketRepository.save(existingTicket);
     }
 
-    public void delete(long id){
-        if (residentRepository.findById(id).isPresent()) {
-            residentRepository.deleteById(id);
-        }else{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resident not found");
+    public void delete(long ticketId){
+
+        if(ticketRepository.findByResidentId())
+
+        if(ticketRepository.findById(ticketId).isPresent()) {
+
         }
+    }
+
+    public Ticket findById(long ticketId){
+        return ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ticket not found"));
     }
     public List<Ticket> findByBuildingId(Long buildingId){
         return ticketRepository.findByBuildingId(buildingId);

@@ -1,6 +1,7 @@
 package pt.pedrorocha.mybuilding.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import pt.pedrorocha.mybuilding.entity.Resident;
 import pt.pedrorocha.mybuilding.entity.Ticket;
 
 import java.util.List;

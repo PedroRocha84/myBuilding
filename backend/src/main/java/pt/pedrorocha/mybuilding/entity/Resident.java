@@ -11,7 +11,6 @@ public class Resident extends AbstractModel {
     private String lastName;
     private String fraction; // Optional, for residents
 
-
     @ManyToOne
     @JoinColumn(name = "client_group_id", nullable = true)
     private ClientGroup clientGroup;
